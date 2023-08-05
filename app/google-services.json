@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "686845622872",
+    "project_id": "gastronomy-guide-tr",
+    "storage_bucket": "gastronomy-guide-tr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686845622872:android:74df683f486064532fa82d",
+        "android_client_info": {
+          "package_name": "com.samedtemiz.gastronomyguide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "686845622872-m6g3j5it2a5f0i2g3eb0ovi2vgo9fvu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp7B9dJwF4RWKz85E-fc4gWbHVWwLJ5tA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "686845622872-m6g3j5it2a5f0i2g3eb0ovi2vgo9fvu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
