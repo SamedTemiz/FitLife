@@ -8,8 +8,8 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class AuthRepository {
-    val currentUser: FirebaseUser? = Firebase.auth.currentUser
 
+    val currentUser: FirebaseUser? = Firebase.auth.currentUser
     fun hasUser(): Boolean = Firebase.auth.currentUser != null
 
     fun getUserId(): String = Firebase.auth.currentUser?.uid.orEmpty()
@@ -18,14 +18,14 @@ class AuthRepository {
         email: String,
         password: String,
         onComplete: (Boolean) -> Unit
-    ) = withContext(Dispatchers.IO){
+    ) = withContext(Dispatchers.IO) {
 
         Firebase.auth
             .createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener{
-                if(it.isSuccessful){
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
                     onComplete.invoke(true)
-                }else{
+                } else {
                     onComplete.invoke(false)
                 }
             }.await()
@@ -36,23 +36,26 @@ class AuthRepository {
         email: String,
         password: String,
         onComplete: (Boolean) -> Unit
-    ) = withContext(Dispatchers.IO){
+    ) = withContext(Dispatchers.IO) {
 
         Firebase.auth
             .signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener{
-                if(it.isSuccessful){
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
                     onComplete.invoke(true)
-                }else{
+                } else {
                     onComplete.invoke(false)
                 }
             }.await()
 
     }
 
-    fun logout(){
-        Firebase.auth.signOut()
-    }
+    fun logout() {
 
+        if (hasUser()) {
+            Firebase.auth.signOut()
+        }
+
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.samedtemiz.gastronomyguide.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +33,6 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -45,34 +43,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.samedtemiz.gastronomyguide.R
 import com.samedtemiz.gastronomyguide.components.ButtonComponent
 import com.samedtemiz.gastronomyguide.components.ClickableTextComponent
 import com.samedtemiz.gastronomyguide.components.NormalTextBoxComponent
 import com.samedtemiz.gastronomyguide.components.PasswordTextBoxComponent
-import com.samedtemiz.gastronomyguide.data.login.LoginFormEvent
 import com.samedtemiz.gastronomyguide.data.register.RegisterFormEvent
 import com.samedtemiz.gastronomyguide.data.register.RegisterUIState
-import com.samedtemiz.gastronomyguide.data.register.RegisterValidationEvent
 import com.samedtemiz.gastronomyguide.data.register.RegisterViewModel
-import kotlinx.coroutines.flow.collectIndexed
+import com.systemized.gastronomyguide.R
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun RegisterScreenPreview() {
-    RegisterScreen(onNavToHomePage = { /*TODO*/ }) {
-
-    }
+    RegisterScreen()
 }
 
 @Composable
 fun RegisterScreen(
-    onNavToHomePage: () -> Unit,
-    onNavLoginPage: () -> Unit
+    registerViewModel: RegisterViewModel = viewModel(),
+    onNavToHomePage: (() -> Unit)? = null,
+    onNavToLoginPage: (() -> Unit)? = null
 ) {
-    val registerViewModel = viewModel<RegisterViewModel>()
     val state = registerViewModel.state
-    val context = LocalContext.current
+//    val context = LocalContext.current
 
 
     Box(
@@ -125,7 +118,7 @@ fun RegisterScreen(
                         registerViewModel.onEvent(RegisterFormEvent.Submit)
                     },
                     onLoginClick = {
-                        onNavLoginPage.invoke()
+                        onNavToLoginPage?.invoke()
                     },
                     enabledStatus = true
                 )
@@ -139,7 +132,7 @@ fun RegisterScreen(
 
     LaunchedEffect(key1 = registerViewModel.hasUser) {
         if (registerViewModel.hasUser) {
-            onNavToHomePage.invoke()
+            onNavToHomePage?.invoke()
         }
     }
 }

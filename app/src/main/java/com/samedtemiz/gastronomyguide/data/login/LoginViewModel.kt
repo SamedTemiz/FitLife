@@ -1,15 +1,11 @@
-package com.samedtemiz.gastronomyguide.data
+package com.samedtemiz.gastronomyguide.data.login
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.samedtemiz.gastronomyguide.data.login.LoginFormEvent
-import com.samedtemiz.gastronomyguide.data.login.LoginUIState
-import com.samedtemiz.gastronomyguide.data.register.RegisterValidationEvent
-import com.samedtemiz.gastronomyguide.data.use_case.ValidateEmail
-import com.samedtemiz.gastronomyguide.data.use_case.ValidatePassword
+import com.samedtemiz.gastronomyguide.data.FieldsValidator
 import com.samedtemiz.gastronomyguide.repository.AuthRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -18,8 +14,6 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val repository: AuthRepository = AuthRepository(),
-    private val validateEmail: ValidateEmail = ValidateEmail(),
-    private val validatePassword: ValidatePassword = ValidatePassword(),
 ) : ViewModel() {
 
     var state by mutableStateOf(LoginUIState())
@@ -30,7 +24,7 @@ class LoginViewModel(
         get() = repository.hasUser()
 
     private val validationEventChannel = Channel<LoginValidationEvent>()
-    val validationEvents = validationEventChannel.receiveAsFlow()
+    private val validationEvents = validationEventChannel.receiveAsFlow()
 
     fun onEvent(event: LoginFormEvent) {
         when (event) {
@@ -43,16 +37,16 @@ class LoginViewModel(
             }
 
             is LoginFormEvent.Submit -> {
-                submitData()
+                validationDataWithLoginRules()
                 login()
             }
         }
 
     }
 
-    private fun submitData() {
-        val emailResult = validateEmail.execute(state.email)
-        val passwordResult = validatePassword.execute(state.password)
+    private fun validationDataWithLoginRules() {
+        val emailResult = FieldsValidator.validateEmail(state.email)
+        val passwordResult = FieldsValidator.validatePassword(state.password)
 
         val hasError = listOf(
             emailResult,
@@ -80,26 +74,18 @@ class LoginViewModel(
             validationEvents.collect { event ->
                 when (event) {
                     is LoginValidationEvent.Success -> {
-
                         state = state.copy(loginError = null)
-
                         repository.login(
                             state.email,
                             state.password
                         ) { isSuccessful ->
                             state = if (isSuccessful) {
-
                                 state.copy(isSuccessLogin = true)
-
                             } else {
-
                                 state.copy(isSuccessLogin = false)
                             }
-
                         }
                     }
-
-                    else -> {}
                 }
             }
 
@@ -126,6 +112,6 @@ class LoginViewModel(
     }
 }
 
-sealed class LoginValidationEvent() {
+sealed class LoginValidationEvent {
     object Success : LoginValidationEvent()
 }

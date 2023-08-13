@@ -43,31 +43,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.samedtemiz.gastronomyguide.R
 import com.samedtemiz.gastronomyguide.components.ButtonComponent
 import com.samedtemiz.gastronomyguide.components.ClickableTextComponent
 import com.samedtemiz.gastronomyguide.components.NormalTextBoxComponent
 import com.samedtemiz.gastronomyguide.components.PasswordTextBoxComponent
-import com.samedtemiz.gastronomyguide.data.LoginViewModel
+import com.samedtemiz.gastronomyguide.data.login.LoginViewModel
 import com.samedtemiz.gastronomyguide.data.login.LoginFormEvent
 import com.samedtemiz.gastronomyguide.data.login.LoginUIState
+import com.systemized.gastronomyguide.R
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(onNavToHomePage = { /*TODO*/ }) {
-
-    }
+    LoginScreen()
 }
 
 @Composable
 fun LoginScreen(
-    onNavToHomePage: () -> Unit,
-    onNavToRegisterPage: () -> Unit
+    loginViewModel: LoginViewModel = viewModel(),
+    onNavToHomePage: (() -> Unit)? = null,
+    onNavToRegisterPage: (() -> Unit)? = null
 ) {
-    val loginViewModel = viewModel<LoginViewModel>()
+
     val state = loginViewModel.state
-//    val context = LocalContext.current
+
+    LaunchedEffect(key1 = loginViewModel.hasUser) {
+        if (loginViewModel.hasUser) {
+            onNavToHomePage?.invoke()
+        }
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -78,7 +82,7 @@ fun LoginScreen(
                 .fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.deneme_bg),
+                painter = painterResource(id = R.drawable.fruitbg),
                 contentDescription = "Login",
                 modifier = Modifier
                     .fillMaxSize()
@@ -119,7 +123,7 @@ fun LoginScreen(
                         loginViewModel.onEvent(LoginFormEvent.Submit)
                     },
                     onRegisterClick = {
-                        onNavToRegisterPage.invoke()
+                        onNavToRegisterPage?.invoke()
                     },
                     enabledStatus = true
                 )
@@ -131,12 +135,6 @@ fun LoginScreen(
 
         if (state.isLoading) {
             CircularProgressIndicator()
-        }
-    }
-
-    LaunchedEffect(key1 = loginViewModel.hasUser) {
-        if (loginViewModel.hasUser) {
-            onNavToHomePage.invoke()
         }
     }
 }
@@ -157,7 +155,7 @@ fun LoginHeader() {
 @Composable
 fun LoginFields(loginViewModel: LoginViewModel, state: LoginUIState) {
     Column {
-        if(state.loginError != null){
+        if (state.loginError != null) {
             Text(text = state.loginError, color = Color.Red)
         }
         //EMAIL
@@ -213,7 +211,7 @@ fun LoginFields(loginViewModel: LoginViewModel, state: LoginUIState) {
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Go
+                imeAction = ImeAction.Done
             ),
             errorStatus = state.passwordError != null
         )

@@ -12,22 +12,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.samedtemiz.gastronomyguide.components.ButtonComponent
-import com.samedtemiz.gastronomyguide.data.LoginViewModel
+import com.samedtemiz.gastronomyguide.data.login.LoginViewModel
 
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun HomeScreenPreview() {
+    HomeScreen()
+}
 
 @Composable
 fun HomeScreen(
-    onNavToLoginPage: () -> Unit
+    loginViewModel: LoginViewModel = viewModel(),
+    onNavToLoginPage: (() -> Unit)? = null
 ) {
-    val loginViewModel = viewModel<LoginViewModel>()
     val state = loginViewModel.state
-    val context = LocalContext.current
 
     Surface(
         modifier = Modifier
@@ -46,9 +49,9 @@ fun HomeScreen(
                     value = "Logout",
                     onButtonClicked = {
                         loginViewModel.logoutUser()
-                        onNavToLoginPage.invoke()
+                        onNavToLoginPage?.invoke()
                     },
-                    true
+                    isEnabled = true
                 )
             }
 
@@ -59,10 +62,3 @@ fun HomeScreen(
     }
 }
 
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen {
-
-    }
-}

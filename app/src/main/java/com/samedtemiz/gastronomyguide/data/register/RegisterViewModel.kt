@@ -1,19 +1,12 @@
 package com.samedtemiz.gastronomyguide.data.register
 
-import android.content.Context
-import android.widget.Toast
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.samedtemiz.gastronomyguide.data.LoginValidationEvent
-import com.samedtemiz.gastronomyguide.data.login.LoginFormEvent
-import com.samedtemiz.gastronomyguide.data.use_case.ValidateConfirmPassword
-import com.samedtemiz.gastronomyguide.data.use_case.ValidateEmail
-import com.samedtemiz.gastronomyguide.data.use_case.ValidateFirstName
-import com.samedtemiz.gastronomyguide.data.use_case.ValidateLastName
-import com.samedtemiz.gastronomyguide.data.use_case.ValidatePassword
+import com.samedtemiz.gastronomyguide.data.FieldsValidator
 import com.samedtemiz.gastronomyguide.repository.AuthRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -21,11 +14,6 @@ import kotlinx.coroutines.launch
 
 class RegisterViewModel(
     private val repository: AuthRepository = AuthRepository(),
-    private val validateFirstName: ValidateFirstName = ValidateFirstName(),
-    private val validateLastName: ValidateLastName = ValidateLastName(),
-    private val validateEmail: ValidateEmail = ValidateEmail(),
-    private val validatePassword: ValidatePassword = ValidatePassword(),
-    private val validateConfirmPassword: ValidateConfirmPassword = ValidateConfirmPassword()
 ) : ViewModel() {
 
     var state by mutableStateOf(RegisterUIState())
@@ -37,7 +25,7 @@ class RegisterViewModel(
 
 
     private val validationEventChannel = Channel<RegisterValidationEvent>()
-    val validationEvents = validationEventChannel.receiveAsFlow()
+    private val validationEvents = validationEventChannel.receiveAsFlow()
 
     fun onEvent(event: RegisterFormEvent) {
 
@@ -72,12 +60,12 @@ class RegisterViewModel(
     }
 
     private fun submitData() {
-        val firstNameResult = validateFirstName.execute(state.firstNameRegister)
-        val lastNameResult = validateLastName.execute(state.lastNameRegister)
-        val emailResult = validateEmail.execute(state.emailRegister)
-        val passwordResult = validatePassword.execute(state.passwordRegister)
+        val firstNameResult = FieldsValidator.validateFirstName(state.firstNameRegister)
+        val lastNameResult = FieldsValidator.validateLastName(state.lastNameRegister)
+        val emailResult = FieldsValidator.validateEmail(state.emailRegister)
+        val passwordResult = FieldsValidator.validatePassword(state.passwordRegister)
         val confirmPasswordResult =
-            validateConfirmPassword.execute(state.passwordRegister, state.confirmPasswordRegister)
+            FieldsValidator.validateConfirmPassword(state.passwordRegister, state.confirmPasswordRegister)
 
         val hasError = listOf(
             firstNameResult,
@@ -95,22 +83,21 @@ class RegisterViewModel(
                 passwordRegisterError = passwordResult.errorMessage,
                 confirmPasswordRegisterError = confirmPasswordResult.errorMessage
             )
-        }
-
-        viewModelScope.launch {
-            validationEventChannel.send(RegisterValidationEvent.Success)
+        } else {
+            viewModelScope.launch {
+                validationEventChannel.send(RegisterValidationEvent.Success)
+            }
         }
     }
 
     private fun register() = viewModelScope.launch {
 
         try {
-            state = state.copy(isLoading = true)
-            validationEvents.collect{event ->
+
+            validationEvents.collect { event ->
                 when (event) {
                     is RegisterValidationEvent.Success -> {
-
-                        state = state.copy(registerError = null)
+                        state = state.copy(isLoading = true, registerError = null)
 
                         repository.createUser(
                             state.emailRegister,
@@ -126,6 +113,8 @@ class RegisterViewModel(
                     }
                 }
             }
+
+            state = state.copy(isLoading = false)
         } catch (e: Exception) {
             state = state.copy(registerError = e.localizedMessage)
 

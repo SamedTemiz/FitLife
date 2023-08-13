@@ -3,6 +3,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_main">MainActivity</string>
 
-<!-- Ben Buradan sonrasını ekledim   -->
+    <!-- Ben Buradan sonrasını ekledim   -->
     <string name="hello">Hey there, </string>
+    <string name="title_activity_guide.app">Guide.app</string>
 </resources>
