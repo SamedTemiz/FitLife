@@ -1,28 +1,24 @@
-package com.samedtemiz.gastronomyguide.data.register
-
+package com.samedtemiz.gastronomyguide.data.auth.register
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.samedtemiz.gastronomyguide.data.FieldsValidator
-import com.samedtemiz.gastronomyguide.repository.AuthRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.samedtemiz.gastronomyguide.data.auth.FieldsValidator
+import com.samedtemiz.gastronomyguide.navigation.AppRouter
+import com.samedtemiz.gastronomyguide.navigation.Screen
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
-class RegisterViewModel(
-    private val repository: AuthRepository = AuthRepository(),
-) : ViewModel() {
+class RegisterViewModel : ViewModel() {
 
     var state by mutableStateOf(RegisterUIState())
-
-    val currentUser = repository.currentUser
-
-    val hasUser: Boolean
-        get() = repository.hasUser()
-
 
     private val validationEventChannel = Channel<RegisterValidationEvent>()
     private val validationEvents = validationEventChannel.receiveAsFlow()
@@ -65,7 +61,10 @@ class RegisterViewModel(
         val emailResult = FieldsValidator.validateEmail(state.emailRegister)
         val passwordResult = FieldsValidator.validatePassword(state.passwordRegister)
         val confirmPasswordResult =
-            FieldsValidator.validateConfirmPassword(state.passwordRegister, state.confirmPasswordRegister)
+            FieldsValidator.validateConfirmPassword(
+                state.passwordRegister,
+                state.confirmPasswordRegister
+            )
 
         val hasError = listOf(
             firstNameResult,
@@ -99,14 +98,19 @@ class RegisterViewModel(
                     is RegisterValidationEvent.Success -> {
                         state = state.copy(isLoading = true, registerError = null)
 
-                        repository.createUser(
+                        firebaseRegister(
                             state.emailRegister,
                             state.passwordRegister
                         ) { isSuccessful ->
-                            state = if (isSuccessful) {
-                                state.copy(isSuccessLogin = true)
+
+                            if (isSuccessful) {
+                                AppRouter.navigateTo(Screen.HomeScreen)
+                                state = state.copy(isSuccessLogin = true)
                             } else {
-                                state.copy(isSuccessLogin = false)
+                                state = state.copy(
+                                    isSuccessLogin = false,
+                                    isLoading = false
+                                )
                             }
 
                         }
@@ -114,7 +118,6 @@ class RegisterViewModel(
                 }
             }
 
-            state = state.copy(isLoading = false)
         } catch (e: Exception) {
             state = state.copy(registerError = e.localizedMessage)
 
@@ -124,7 +127,26 @@ class RegisterViewModel(
         }
 
     }
+
+    private suspend fun firebaseRegister(
+        email: String,
+        password: String,
+        onComplete: (Boolean) -> Unit
+    ) = withContext(Dispatchers.IO) {
+
+        FirebaseAuth
+            .getInstance()
+            .createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    onComplete.invoke(true)
+                } else {
+                    onComplete.invoke(false)
+                }
+            }.await()
+    }
 }
+
 
 sealed class RegisterValidationEvent() {
     object Success : RegisterValidationEvent()

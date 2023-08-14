@@ -23,7 +23,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -43,14 +42,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.samedtemiz.gastronomyguide.R
 import com.samedtemiz.gastronomyguide.components.ButtonComponent
 import com.samedtemiz.gastronomyguide.components.ClickableTextComponent
 import com.samedtemiz.gastronomyguide.components.NormalTextBoxComponent
 import com.samedtemiz.gastronomyguide.components.PasswordTextBoxComponent
-import com.samedtemiz.gastronomyguide.data.login.LoginViewModel
-import com.samedtemiz.gastronomyguide.data.login.LoginFormEvent
-import com.samedtemiz.gastronomyguide.data.login.LoginUIState
-import com.systemized.gastronomyguide.R
+import com.samedtemiz.gastronomyguide.data.auth.login.LoginViewModel
+import com.samedtemiz.gastronomyguide.data.auth.login.LoginFormEvent
+import com.samedtemiz.gastronomyguide.data.auth.login.LoginUIState
+import com.samedtemiz.gastronomyguide.navigation.AppRouter
+import com.samedtemiz.gastronomyguide.navigation.Screen
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -59,19 +60,9 @@ fun LoginScreenPreview() {
 }
 
 @Composable
-fun LoginScreen(
-    loginViewModel: LoginViewModel = viewModel(),
-    onNavToHomePage: (() -> Unit)? = null,
-    onNavToRegisterPage: (() -> Unit)? = null
-) {
+fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
 
     val state = loginViewModel.state
-
-    LaunchedEffect(key1 = loginViewModel.hasUser) {
-        if (loginViewModel.hasUser) {
-            onNavToHomePage?.invoke()
-        }
-    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -123,7 +114,7 @@ fun LoginScreen(
                         loginViewModel.onEvent(LoginFormEvent.Submit)
                     },
                     onRegisterClick = {
-                        onNavToRegisterPage?.invoke()
+                        AppRouter.navigateTo(Screen.RegisterScreen)
                     },
                     enabledStatus = true
                 )

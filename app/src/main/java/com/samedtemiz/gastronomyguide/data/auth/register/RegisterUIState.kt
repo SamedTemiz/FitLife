@@ -1,4 +1,4 @@
-package com.samedtemiz.gastronomyguide.data.register
+package com.samedtemiz.gastronomyguide.data.auth.register
 
 data class RegisterUIState(
     //Register

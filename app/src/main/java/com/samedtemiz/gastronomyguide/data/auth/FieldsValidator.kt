@@ -1,4 +1,4 @@
-package com.samedtemiz.gastronomyguide.data
+package com.samedtemiz.gastronomyguide.data.auth
 
 import android.util.Patterns
 
@@ -44,7 +44,7 @@ object FieldsValidator {
         )
     }
 
-    fun validateEmail(email: String): ValidationResult{
+    fun validateEmail(email: String): ValidationResult {
         if(email.isBlank()){
             return ValidationResult(
                 successful = false,
@@ -64,7 +64,7 @@ object FieldsValidator {
         )
     }
 
-    fun validatePassword(password: String): ValidationResult{
+    fun validatePassword(password: String): ValidationResult {
         if(password.isBlank()){
             return ValidationResult(
                 successful = false,
@@ -93,7 +93,7 @@ object FieldsValidator {
         )
     }
 
-    fun validateConfirmPassword(password: String, confirmPassword: String): ValidationResult{
+    fun validateConfirmPassword(password: String, confirmPassword: String): ValidationResult {
         if(confirmPassword.isBlank()){
             return ValidationResult(
                 successful = false,

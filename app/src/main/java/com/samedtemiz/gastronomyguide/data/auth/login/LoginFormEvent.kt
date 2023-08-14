@@ -1,6 +1,6 @@
-package com.samedtemiz.gastronomyguide.data.login
+package com.samedtemiz.gastronomyguide.data.auth.login
 
-import com.samedtemiz.gastronomyguide.data.register.RegisterFormEvent
+import com.samedtemiz.gastronomyguide.data.auth.register.RegisterFormEvent
 
 sealed class LoginFormEvent{
     data class EmailChanged(val email: String) : LoginFormEvent()

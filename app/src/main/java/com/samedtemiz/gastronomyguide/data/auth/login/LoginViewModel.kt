@@ -1,27 +1,27 @@
-package com.samedtemiz.gastronomyguide.data.login
+package com.samedtemiz.gastronomyguide.data.auth.login
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.samedtemiz.gastronomyguide.data.FieldsValidator
-import com.samedtemiz.gastronomyguide.repository.AuthRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.samedtemiz.gastronomyguide.data.auth.FieldsValidator
+import com.samedtemiz.gastronomyguide.navigation.AppRouter
+import com.samedtemiz.gastronomyguide.navigation.Screen
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 
-class LoginViewModel(
-    private val repository: AuthRepository = AuthRepository(),
-) : ViewModel() {
+class LoginViewModel : ViewModel() {
+
+    private val TAG = LoginViewModel::class.simpleName
 
     var state by mutableStateOf(LoginUIState())
-
-    val currentUser = repository.currentUser
-
-    val hasUser: Boolean
-        get() = repository.hasUser()
 
     private val validationEventChannel = Channel<LoginValidationEvent>()
     private val validationEvents = validationEventChannel.receiveAsFlow()
@@ -37,6 +37,7 @@ class LoginViewModel(
             }
 
             is LoginFormEvent.Submit -> {
+                // Bilgiler kurallara uygunsa login() metodu çalışıyor
                 validationDataWithLoginRules()
                 login()
             }
@@ -68,48 +69,58 @@ class LoginViewModel(
     private fun login() = viewModelScope.launch {
 
         try {
-            state = state.copy(isLoading = true)
-            state = state.copy(loginError = null)
+            state = state.copy(isLoading = true, loginError = null)
 
             validationEvents.collect { event ->
                 when (event) {
                     is LoginValidationEvent.Success -> {
                         state = state.copy(loginError = null)
-                        repository.login(
+                        firebaseLogin(
                             state.email,
                             state.password
                         ) { isSuccessful ->
-                            state = if (isSuccessful) {
-                                state.copy(isSuccessLogin = true)
+
+                            if (isSuccessful) {
+                                state = state.copy(isSuccessLogin = true)
+                                AppRouter.navigateTo(Screen.HomeScreen)
                             } else {
-                                state.copy(isSuccessLogin = false)
+                                state = state.copy(
+                                    isSuccessLogin = false,
+                                    isLoading = false,
+                                    loginError = "Email or password is incorrect"
+                                )
                             }
+
                         }
                     }
                 }
             }
 
         } catch (e: Exception) {
-            state = state.copy(loginError = "Email or password is incorrect")
-
             e.printStackTrace()
         } finally {
             state = state.copy(isLoading = false)
         }
-
     }
 
-    fun logoutUser() {
-        try {
-            state = state.copy(isLoading = true)
-            repository.logout()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }finally {
-            state = state.copy(isLoading = false)
-        }
+    private suspend fun firebaseLogin(
+        email: String,
+        password: String,
+        onComplete: (Boolean) -> Unit
+    ) = withContext(Dispatchers.IO) {
 
+        FirebaseAuth
+            .getInstance()
+            .signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    onComplete.invoke(true)
+                } else {
+                    onComplete.invoke(false)
+                }
+            }.await()
     }
+
 }
 
 sealed class LoginValidationEvent {

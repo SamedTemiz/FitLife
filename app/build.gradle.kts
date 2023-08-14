@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.systemized.gastronomyguide"
+    namespace = "com.samedtemiz.gastronomyguide"
     compileSdk = 33
 
     defaultConfig {

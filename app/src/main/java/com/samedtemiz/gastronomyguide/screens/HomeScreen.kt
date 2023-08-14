@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.samedtemiz.gastronomyguide.components.ButtonComponent
-import com.samedtemiz.gastronomyguide.data.login.LoginViewModel
+import com.samedtemiz.gastronomyguide.data.auth.home.HomeViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -26,11 +25,7 @@ fun HomeScreenPreview() {
 }
 
 @Composable
-fun HomeScreen(
-    loginViewModel: LoginViewModel = viewModel(),
-    onNavToLoginPage: (() -> Unit)? = null
-) {
-    val state = loginViewModel.state
+fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
 
     Surface(
         modifier = Modifier
@@ -48,15 +43,10 @@ fun HomeScreen(
                 ButtonComponent(
                     value = "Logout",
                     onButtonClicked = {
-                        loginViewModel.logoutUser()
-                        onNavToLoginPage?.invoke()
+                        homeViewModel.logout()
                     },
                     isEnabled = true
                 )
-            }
-
-            if (state.isLoading) {
-                CircularProgressIndicator()
             }
         }
     }

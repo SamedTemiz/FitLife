@@ -23,7 +23,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -43,14 +42,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.samedtemiz.gastronomyguide.R
 import com.samedtemiz.gastronomyguide.components.ButtonComponent
 import com.samedtemiz.gastronomyguide.components.ClickableTextComponent
 import com.samedtemiz.gastronomyguide.components.NormalTextBoxComponent
 import com.samedtemiz.gastronomyguide.components.PasswordTextBoxComponent
-import com.samedtemiz.gastronomyguide.data.register.RegisterFormEvent
-import com.samedtemiz.gastronomyguide.data.register.RegisterUIState
-import com.samedtemiz.gastronomyguide.data.register.RegisterViewModel
-import com.systemized.gastronomyguide.R
+import com.samedtemiz.gastronomyguide.data.auth.register.RegisterFormEvent
+import com.samedtemiz.gastronomyguide.data.auth.register.RegisterUIState
+import com.samedtemiz.gastronomyguide.data.auth.register.RegisterViewModel
+import com.samedtemiz.gastronomyguide.navigation.AppRouter
+import com.samedtemiz.gastronomyguide.navigation.Screen
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
@@ -59,14 +60,9 @@ fun RegisterScreenPreview() {
 }
 
 @Composable
-fun RegisterScreen(
-    registerViewModel: RegisterViewModel = viewModel(),
-    onNavToHomePage: (() -> Unit)? = null,
-    onNavToLoginPage: (() -> Unit)? = null
-) {
-    val state = registerViewModel.state
-//    val context = LocalContext.current
+fun RegisterScreen(registerViewModel: RegisterViewModel = viewModel()) {
 
+    val state = registerViewModel.state
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -118,7 +114,7 @@ fun RegisterScreen(
                         registerViewModel.onEvent(RegisterFormEvent.Submit)
                     },
                     onLoginClick = {
-                        onNavToLoginPage?.invoke()
+                        AppRouter.navigateTo(Screen.LoginScreen)
                     },
                     enabledStatus = true
                 )
@@ -127,12 +123,6 @@ fun RegisterScreen(
 
         if (state.isLoading) {
             CircularProgressIndicator()
-        }
-    }
-
-    LaunchedEffect(key1 = registerViewModel.hasUser) {
-        if (registerViewModel.hasUser) {
-            onNavToHomePage?.invoke()
         }
     }
 }
