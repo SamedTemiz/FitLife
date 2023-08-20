@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.samedtemiz.gastronomyguide.data.auth.FieldsValidator
+import com.samedtemiz.gastronomyguide.data.auth.AuthValidator
 import com.samedtemiz.gastronomyguide.navigation.AppRouter
 import com.samedtemiz.gastronomyguide.navigation.Screen
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +18,6 @@ import kotlinx.coroutines.withContext
 
 
 class LoginViewModel : ViewModel() {
-
-    private val TAG = LoginViewModel::class.simpleName
 
     var state by mutableStateOf(LoginUIState())
 
@@ -41,13 +39,14 @@ class LoginViewModel : ViewModel() {
                 validationDataWithLoginRules()
                 login()
             }
+
         }
 
     }
 
     private fun validationDataWithLoginRules() {
-        val emailResult = FieldsValidator.validateEmail(state.email)
-        val passwordResult = FieldsValidator.validatePassword(state.password)
+        val emailResult = AuthValidator.validateEmail(state.email)
+        val passwordResult = AuthValidator.validatePassword(state.password)
 
         val hasError = listOf(
             emailResult,
@@ -69,20 +68,21 @@ class LoginViewModel : ViewModel() {
     private fun login() = viewModelScope.launch {
 
         try {
-            state = state.copy(isLoading = true, loginError = null)
 
             validationEvents.collect { event ->
                 when (event) {
+
                     is LoginValidationEvent.Success -> {
-                        state = state.copy(loginError = null)
+                        state = state.copy(isLoading = true, loginError = null)
                         firebaseLogin(
                             state.email,
                             state.password
                         ) { isSuccessful ->
 
                             if (isSuccessful) {
-                                state = state.copy(isSuccessLogin = true)
-                                AppRouter.navigateTo(Screen.HomeScreen)
+                                state = state.copy(isSuccessLogin = true, isLoading = false)
+
+                                AppRouter.navigateTo(Screen.MainScreen)
                             } else {
                                 state = state.copy(
                                     isSuccessLogin = false,
@@ -93,6 +93,7 @@ class LoginViewModel : ViewModel() {
 
                         }
                     }
+
                 }
             }
 

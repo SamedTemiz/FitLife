@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.samedtemiz.gastronomyguide.data.auth.FieldsValidator
+import com.samedtemiz.gastronomyguide.data.auth.AuthValidator
 import com.samedtemiz.gastronomyguide.navigation.AppRouter
 import com.samedtemiz.gastronomyguide.navigation.Screen
 import kotlinx.coroutines.Dispatchers
@@ -56,12 +56,12 @@ class RegisterViewModel : ViewModel() {
     }
 
     private fun submitData() {
-        val firstNameResult = FieldsValidator.validateFirstName(state.firstNameRegister)
-        val lastNameResult = FieldsValidator.validateLastName(state.lastNameRegister)
-        val emailResult = FieldsValidator.validateEmail(state.emailRegister)
-        val passwordResult = FieldsValidator.validatePassword(state.passwordRegister)
+        val firstNameResult = AuthValidator.validateFirstName(state.firstNameRegister)
+        val lastNameResult = AuthValidator.validateLastName(state.lastNameRegister)
+        val emailResult = AuthValidator.validateEmail(state.emailRegister)
+        val passwordResult = AuthValidator.validatePassword(state.passwordRegister)
         val confirmPasswordResult =
-            FieldsValidator.validateConfirmPassword(
+            AuthValidator.validateConfirmPassword(
                 state.passwordRegister,
                 state.confirmPasswordRegister
             )
@@ -104,7 +104,7 @@ class RegisterViewModel : ViewModel() {
                         ) { isSuccessful ->
 
                             if (isSuccessful) {
-                                AppRouter.navigateTo(Screen.HomeScreen)
+                                AppRouter.navigateTo(Screen.MainScreen)
                                 state = state.copy(isSuccessLogin = true)
                             } else {
                                 state = state.copy(
