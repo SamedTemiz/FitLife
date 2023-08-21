@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "686845622872",
-    "project_id": "gastronomy-guide-tr",
-    "storage_bucket": "gastronomy-guide-tr.appspot.com"
+    "project_number": "402876597365",
+    "project_id": "fitlife-2d085",
+    "storage_bucket": "fitlife-2d085.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:686845622872:android:74df683f486064532fa82d",
+        "mobilesdk_app_id": "1:402876597365:android:6d76edd26a698f0623243c",
         "android_client_info": {
-          "package_name": "com.samedtemiz.gastronomyguide"
+          "package_name": "com.samedtemiz.fitlife"
         }
       },
       "oauth_client": [
         {
-          "client_id": "686845622872-m6g3j5it2a5f0i2g3eb0ovi2vgo9fvu4.apps.googleusercontent.com",
+          "client_id": "402876597365-e4f3que5p39j1k7e7ts9o8730vu53q67.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCp7B9dJwF4RWKz85E-fc4gWbHVWwLJ5tA"
+          "current_key": "AIzaSyD8GR3y8CKWctrgn222PU-LJxI8Cvy-Sas"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "686845622872-m6g3j5it2a5f0i2g3eb0ovi2vgo9fvu4.apps.googleusercontent.com",
+              "client_id": "402876597365-e4f3que5p39j1k7e7ts9o8730vu53q67.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

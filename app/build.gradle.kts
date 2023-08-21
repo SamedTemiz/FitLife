@@ -7,13 +7,13 @@ plugins {
 }
 
 android {
-    namespace = "com.samedtemiz.gastronomyguide"
+    namespace = "com.samedtemiz.fitlife"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.samedtemiz.gastronomyguide"
+        applicationId = "com.samedtemiz.fitlife"
         minSdk = 25
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -111,7 +111,7 @@ dependencies {
 
 
     // Kotlin
-    val nav_version = "2.6.0"
+    val nav_version = "2.7.0"
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
@@ -125,6 +125,4 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil:2.4.0")
     implementation("io.coil-kt:coil-compose:2.4.0")
-
-
 }

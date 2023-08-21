@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "GastronomyGuide"
+rootProject.name = "FitLife"
 include(":app")
