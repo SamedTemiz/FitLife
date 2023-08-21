@@ -174,7 +174,6 @@ fun RecipeScreen(viewModel: RecipeViewModel? = viewModel()) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color.Blue)
                     ) {
 
                         Column {
