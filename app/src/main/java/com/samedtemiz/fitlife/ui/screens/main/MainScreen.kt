@@ -118,7 +118,7 @@ fun RowScope.AddItem(
     Box(
         modifier = Modifier
             .drawBehind {
-                val strokeWidth = 4.dp.toPx()
+                val strokeWidth =15.dp.toPx()
                 val borderColor =
                     if (selected)
                         if (isDarkMode) Color(0xFFffb4a1) else Color(0xFFb22b00)
@@ -134,7 +134,7 @@ fun RowScope.AddItem(
             }
             .weight(1f)
             .fillMaxHeight(0.11f)
-            .background(Color.Transparent)
+            .background(MaterialTheme.colorScheme.background)
             .clickable(onClick = {
                 if (!selected) {
                     navController.navigate(screen.route) {

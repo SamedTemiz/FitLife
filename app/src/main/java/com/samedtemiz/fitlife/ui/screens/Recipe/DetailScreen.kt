@@ -1,4 +1,4 @@
-package com.samedtemiz.fitlife.ui.screens
+package com.samedtemiz.fitlife.ui.screens.Recipe
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

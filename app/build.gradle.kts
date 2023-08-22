@@ -77,6 +77,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-util")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
@@ -92,7 +93,6 @@ dependencies {
     implementation("androidx.compose.material:material:1.5.0")
 
     // Compose Animation
-//    implementation("androidx.compose.animation:animation:1.5.0")
     implementation("com.google.accompanist:accompanist-navigation-animation:0.33.0-alpha")
 
 
@@ -125,4 +125,9 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil:2.4.0")
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+
+    // Paging Compose
+    implementation("com.google.accompanist:accompanist-pager:0.13.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.13.0")
 }

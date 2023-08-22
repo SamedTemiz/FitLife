@@ -18,7 +18,7 @@ import com.samedtemiz.fitlife.ui.screens.CalorieScreen
 import com.samedtemiz.fitlife.ui.screens.HealthScreen
 import com.samedtemiz.fitlife.ui.screens.HomeScreen
 import com.samedtemiz.fitlife.ui.screens.ProfileScreen
-import com.samedtemiz.fitlife.ui.screens.RecipeScreen
+import com.samedtemiz.fitlife.ui.screens.Recipe.RecipeScreen
 
 
 @Composable
