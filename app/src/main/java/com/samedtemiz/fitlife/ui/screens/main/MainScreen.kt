@@ -3,7 +3,6 @@ package com.samedtemiz.fitlife.ui.screens.main
 import android.annotation.SuppressLint
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import com.samedtemiz.fitlife.R
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,7 +39,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
 import com.samedtemiz.fitlife.app.AppSettings
-
+import com.samedtemiz.fitlife.ui.viewmodel.RecipeViewModel
 
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
@@ -85,7 +84,6 @@ fun BottomBar(navController: NavHostController) {
 
     Row(
         modifier = Modifier
-            .background(Color.Transparent)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
@@ -118,7 +116,7 @@ fun RowScope.AddItem(
     Box(
         modifier = Modifier
             .drawBehind {
-                val strokeWidth =15.dp.toPx()
+                val strokeWidth = 4.dp.toPx()
                 val borderColor =
                     if (selected)
                         if (isDarkMode) Color(0xFFffb4a1) else Color(0xFFb22b00)
@@ -134,7 +132,6 @@ fun RowScope.AddItem(
             }
             .weight(1f)
             .fillMaxHeight(0.11f)
-            .background(MaterialTheme.colorScheme.background)
             .clickable(onClick = {
                 if (!selected) {
                     navController.navigate(screen.route) {

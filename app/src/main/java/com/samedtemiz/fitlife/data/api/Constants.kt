@@ -1,4 +1,4 @@
-package com.samedtemiz.fitlife.data.remote.api
+package com.samedtemiz.fitlife.data.api
 
 object Constants {
     const val BASE_URL = "https://api.spoonacular.com/"

@@ -10,6 +10,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,10 +20,14 @@ import com.samedtemiz.fitlife.ui.screens.HealthScreen
 import com.samedtemiz.fitlife.ui.screens.HomeScreen
 import com.samedtemiz.fitlife.ui.screens.ProfileScreen
 import com.samedtemiz.fitlife.ui.screens.Recipe.RecipeScreen
+import com.samedtemiz.fitlife.ui.viewmodel.RecipeViewModel
 
 
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
+    val recipeViewModel: RecipeViewModel = viewModel()
+
+
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.Home.route
@@ -32,7 +37,7 @@ fun BottomNavGraph(navController: NavHostController) {
             exitTransition = exit_RightAnimation(),
             popEnterTransition = enter_RightAnimation()
         ) {
-            RecipeScreen()
+            RecipeScreen(recipeViewModel)
         }
 
         composable(
@@ -68,6 +73,9 @@ fun BottomNavGraph(navController: NavHostController) {
         }
     }
 }
+
+
+
 
 fun exit_RightAnimation(): @JvmSuppressWildcards() (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? {
     return {

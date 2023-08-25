@@ -6,4 +6,6 @@
     <!-- Ben Buradan sonrasını ekledim   -->
     <string name="hello">Hey there, </string>
     <string name="title_activity_guide.app">Fitlife.app</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

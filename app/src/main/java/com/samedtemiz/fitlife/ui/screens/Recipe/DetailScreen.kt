@@ -21,8 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.samedtemiz.fitlife.components.ButtonComponent
-import com.samedtemiz.fitlife.data.remote.model.Recipe
-import com.samedtemiz.fitlife.ui.DetailViewModel
+import com.samedtemiz.fitlife.data.api.model.Recipe
 
 
 @Preview(showSystemUi = true)
@@ -32,69 +31,6 @@ fun DetailScreenPreview() {
 }
 
 @Composable
-fun DetailScreen(viewModel: DetailViewModel? = viewModel()) {
-    viewModel?.fetchRandomRecipes()
-    val recipe = viewModel?.recipeLiveData?.value
+fun DetailScreen() {
 
-    Surface(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(500.dp)
-            ) {
-
-                if (recipe != null) {
-                    RecipeDetailScreen(recipe = recipe)
-                }
-
-
-            }
-
-            //GERİ BUTONU
-            ButtonComponent(
-                value = "GERİ",
-                onButtonClicked = {
-                },
-                isEnabled = true
-            )
-        }
-
-    }
-}
-
-@Composable
-fun RecipeDetailScreen(recipe: Recipe) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        AsyncImage(
-            model = recipe.image,
-            contentDescription = recipe.title,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = recipe.title,
-            style = MaterialTheme.typography.titleSmall,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Servings: ${recipe.servings} | Ready in: ${recipe.readyInMinutes} minutes",
-            style = MaterialTheme.typography.titleSmall,
-        )
-    }
 }

@@ -1,4 +1,4 @@
-package com.samedtemiz.fitlife.data.remote.model
+package com.samedtemiz.fitlife.data.api.model
 
 data class Us(
     val amount: Double,
