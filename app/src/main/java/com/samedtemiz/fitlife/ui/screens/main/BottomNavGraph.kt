@@ -1,5 +1,6 @@
 package com.samedtemiz.fitlife.ui.screens.main
 
+import android.app.Application
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition

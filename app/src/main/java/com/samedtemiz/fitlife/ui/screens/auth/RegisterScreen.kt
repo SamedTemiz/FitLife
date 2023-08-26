@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose.AppTheme
 import com.samedtemiz.fitlife.R
-import com.samedtemiz.fitlife.app.AppSettings
+import com.samedtemiz.fitlife.ui.app.AppSettings
 import com.samedtemiz.fitlife.components.ButtonComponent
 import com.samedtemiz.fitlife.components.ClickableTextComponent
 import com.samedtemiz.fitlife.components.NormalTextBoxComponent

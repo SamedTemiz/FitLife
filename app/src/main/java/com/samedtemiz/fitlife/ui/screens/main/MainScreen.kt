@@ -38,8 +38,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
-import com.samedtemiz.fitlife.app.AppSettings
-import com.samedtemiz.fitlife.ui.viewmodel.RecipeViewModel
+import com.samedtemiz.fitlife.ui.app.AppSettings
 
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)

@@ -1,7 +1,6 @@
 package com.samedtemiz.fitlife.ui.screens.Recipe
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -27,15 +26,13 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import coil.compose.AsyncImage
-import com.example.compose.AppTheme
 import com.google.accompanist.pager.*
 import com.samedtemiz.fitlife.R
-import com.samedtemiz.fitlife.data.api.model.Recipe
+import com.samedtemiz.fitlife.data.model.recipe.Recipe
 import kotlin.math.absoluteValue
 
 

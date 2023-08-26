@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.AppTheme
 import com.samedtemiz.fitlife.R
-import com.samedtemiz.fitlife.app.AppSettings
+import com.samedtemiz.fitlife.ui.app.AppSettings
 import com.samedtemiz.fitlife.navigation.AppRouter
 import com.samedtemiz.fitlife.navigation.Screen
 

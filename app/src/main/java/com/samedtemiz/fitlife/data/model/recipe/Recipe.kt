@@ -1,5 +1,8 @@
-package com.samedtemiz.fitlife.data.api.model
+package com.samedtemiz.fitlife.data.model.recipe
 
+import androidx.room.Entity
+
+@Entity(tableName = "recipes")
 data class Recipe(
     val aggregateLikes: Int,
     val analyzedInstructions: List<AnalyzedInstruction>,

@@ -1,4 +1,4 @@
-package com.samedtemiz.fitlife.app
+package com.samedtemiz.fitlife.ui.app
 
 import android.content.Context
 import android.content.res.Configuration
