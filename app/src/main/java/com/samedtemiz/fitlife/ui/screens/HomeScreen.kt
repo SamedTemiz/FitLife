@@ -3,6 +3,7 @@ package com.samedtemiz.fitlife.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.rememberCameraPositionState
 import com.samedtemiz.fitlife.data.auth.home.HomeViewModel
 
 @Preview(showSystemUi = true, heightDp = 700)
@@ -30,15 +37,20 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
             .background(color = Color.White)
     ) {
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Green),
-            contentAlignment = Alignment.Center
+        val singapore = LatLng(1.35, 103.87)
+        val singaporeState = MarkerState(position = singapore)
+        val cameraPositionState = rememberCameraPositionState{
+            position = CameraPosition.fromLatLngZoom(singapore, 10f)
+        }
+
+        GoogleMap(
+            modifier = Modifier.fillMaxSize(),
+            cameraPositionState = cameraPositionState
         ) {
-            Text(text = "HOME SCREEN",
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold)
+            Marker(
+                state = singaporeState,
+                title = "Marker in Singapore"
+            )
         }
 
     }

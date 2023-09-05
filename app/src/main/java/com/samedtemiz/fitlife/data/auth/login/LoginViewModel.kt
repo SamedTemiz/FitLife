@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.samedtemiz.fitlife.data.auth.AuthValidator
-import com.samedtemiz.fitlife.navigation.AppRouter
 import com.samedtemiz.fitlife.navigation.Screen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -80,9 +80,10 @@ class LoginViewModel : ViewModel() {
                         ) { isSuccessful ->
 
                             if (isSuccessful) {
-                                state = state.copy(isSuccessLogin = true, isLoading = false)
 
-                                AppRouter.navigateTo(Screen.MainScreen)
+                                state = state.copy(isSuccessLogin = true, isLoading = false)
+//                                navController.navigate(Screen.Main.route)
+
                             } else {
                                 state = state.copy(
                                     isSuccessLogin = false,

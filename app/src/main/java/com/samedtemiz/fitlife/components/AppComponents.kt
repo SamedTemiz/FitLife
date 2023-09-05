@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +35,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.compose.BurntSienna_400
+import com.example.compose.BurntSienna_500
+import com.example.compose.Comet_300
+import com.example.compose.Comet_500
 import com.samedtemiz.fitlife.R
 
 
@@ -77,6 +83,22 @@ fun NormalTextBoxComponent(
         maxLines = 1,
         singleLine = true,
         isError = errorStatus,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = Color.White,
+            cursorColor = BurntSienna_500,
+            focusedBorderColor = Color.White,
+            unfocusedBorderColor = Comet_300,
+            errorBorderColor = BurntSienna_400,
+            focusedLeadingIconColor = Color.White,
+            unfocusedLeadingIconColor = Comet_300,
+            errorLeadingIconColor = BurntSienna_400,
+            focusedLabelColor = Color.White,
+            unfocusedLabelColor = Comet_300,
+            errorLabelColor = BurntSienna_400,
+            placeholderColor = Comet_300,
+            errorSupportingTextColor = BurntSienna_400,
+            selectionColors = TextSelectionColors(handleColor = Color.White, backgroundColor = Comet_500)
+        )
     )
 }
 
@@ -123,6 +145,22 @@ fun PasswordTextBoxComponent(
         maxLines = 1,
         singleLine = true,
         isError = errorStatus,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = Color.White,
+            cursorColor = BurntSienna_500,
+            focusedBorderColor = Color.White,
+            unfocusedBorderColor = Comet_300,
+            errorBorderColor = BurntSienna_400,
+            focusedLeadingIconColor = Color.White,
+            unfocusedLeadingIconColor = Comet_300,
+            errorLeadingIconColor = BurntSienna_400,
+            focusedLabelColor = Color.White,
+            unfocusedLabelColor = Comet_300,
+            errorLabelColor = BurntSienna_400,
+            placeholderColor = Comet_300,
+            errorSupportingTextColor = BurntSienna_400,
+            selectionColors = TextSelectionColors(handleColor = Color.White, backgroundColor = Comet_500)
+        )
     )
 }
 
@@ -144,7 +182,7 @@ fun ButtonComponent(value: String, onButtonClicked: () -> Unit, isEnabled: Boole
                 .fillMaxWidth()
                 .heightIn(48.dp)
                 .background(
-                    color = MaterialTheme.colorScheme.primary,
+                    color = BurntSienna_500,
                     shape = RoundedCornerShape(50.dp)
                 ),
             contentAlignment = Alignment.Center
@@ -174,7 +212,12 @@ fun ClickableTextComponent(tryingToLogin: Boolean = true, onTextSelected: (Strin
 
     val annotatedString = buildAnnotatedString {
         append(initialText)
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)) {
+        withStyle(
+            style = SpanStyle(
+                color = Color.White,
+                fontWeight = FontWeight.Bold
+            )
+        ) {
             pushStringAnnotation(tag = loginText, annotation = loginText)
             append(loginText)
         }
@@ -185,7 +228,7 @@ fun ClickableTextComponent(tryingToLogin: Boolean = true, onTextSelected: (Strin
             .fillMaxWidth()
             .heightIn(min = 20.dp),
         style = TextStyle(
-            color = MaterialTheme.colorScheme.onSurface,
+            color = Comet_300,
             fontSize = 16.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal,
@@ -206,5 +249,51 @@ fun ClickableTextComponent(tryingToLogin: Boolean = true, onTextSelected: (Strin
                     }
                 }
         }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchBarTextComponent(
+    label: String,
+    placeholder: String,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+) {
+
+    val textValue = remember {
+        mutableStateOf("")
+    }
+
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = textValue.value,
+        onValueChange = {
+            textValue.value = it
+        },
+        label = {
+            Text(text = label)
+        },
+        placeholder = {
+            Text(text = placeholder)
+        },
+        keyboardOptions = keyboardOptions,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
+        maxLines = 1,
+        singleLine = true,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = Color.White,
+            cursorColor = BurntSienna_500,
+            focusedBorderColor = BurntSienna_400,
+            unfocusedBorderColor = BurntSienna_500,
+            focusedTrailingIconColor = BurntSienna_400,
+            unfocusedTrailingIconColor = BurntSienna_500,
+            focusedLabelColor = BurntSienna_400,
+            unfocusedLabelColor = BurntSienna_500,
+            placeholderColor = Comet_300,
+            selectionColors = TextSelectionColors(handleColor = Color.White, backgroundColor = Comet_500)
+        )
     )
 }

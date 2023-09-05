@@ -8,7 +8,5 @@ class FitLifeApp: Application() {
         super.onCreate()
 
         FirebaseApp.initializeApp(this)
-
-
     }
 }

@@ -1,8 +1,6 @@
 package com.samedtemiz.fitlife.ui.screens.auth
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,42 +19,43 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.compose.AppTheme
+import androidx.navigation.NavController
+import com.example.compose.BurntSienna_300
+import com.example.compose.BurntSienna_600
+import com.example.compose.BurntSienna_900
+import com.example.compose.Comet_300
 import com.samedtemiz.fitlife.R
-import com.samedtemiz.fitlife.ui.app.AppSettings
-import com.samedtemiz.fitlife.navigation.AppRouter
 import com.samedtemiz.fitlife.navigation.Screen
 
-@Preview(showSystemUi = true)
-@Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun WelcomeScreenPreview() {
-    AppTheme {
-        WelcomeScreen()
-    }
-}
+//@Preview(showSystemUi = true)
+//@Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
+//@Composable
+//fun WelcomeScreenPreview() {
+//    AppTheme {
+//        WelcomeScreen()
+//    }
+//}
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(
+    navController: NavController,
+) {
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White)
     ) {
         Image(
             painter = painterResource(
-                id = if(AppSettings.isDarkMode(LocalContext.current)) R.drawable.food_bg_dark else R.drawable.food_bg_light
+                id = R.drawable.food_bg_dark
             ),
             contentDescription = "Welcome",
             modifier = Modifier
@@ -97,7 +95,7 @@ fun WelcomeScreen() {
                                     Font(R.font.esprit_bold)
                                 )
                             ),
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = Color.White
                         )
                         Text(
                             text = "Take a step towards a healthy life",
@@ -108,7 +106,7 @@ fun WelcomeScreen() {
                                     Font(R.font.avenir_next)
                                 )
                             ),
-                            color = Color(0xFF8d9395)
+                            color = Comet_300
                         )
                     }
                 }
@@ -120,16 +118,16 @@ fun WelcomeScreen() {
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Column{
+                    Column {
                         Button(
                             onClick = {
-                                AppRouter.navigateTo(Screen.RegisterScreen)
+                                navController.navigate(Screen.Auth.Register.route)
                             },
                             modifier = Modifier
                                 .fillMaxWidth(),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.secondary,
-                                contentColor = MaterialTheme.colorScheme.onSecondary
+                                containerColor = BurntSienna_600,
+                                contentColor = Color.White
                             )
                         ) {
                             Text(
@@ -150,13 +148,13 @@ fun WelcomeScreen() {
 
                         Button(
                             onClick = {
-                                AppRouter.navigateTo(Screen.LoginScreen)
+                                navController.navigate(Screen.Auth.Login.route)
                             },
                             modifier = Modifier
                                 .fillMaxWidth(),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary
+                                containerColor = BurntSienna_300,
+                                contentColor = BurntSienna_900
                             ),
                         ) {
                             Text(

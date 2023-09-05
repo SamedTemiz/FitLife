@@ -1,7 +1,5 @@
 package com.samedtemiz.fitlife.ui.screens.auth
 
-import android.annotation.SuppressLint
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -34,7 +33,6 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -47,9 +45,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.compose.AppTheme
+import androidx.navigation.NavController
+import com.example.compose.Comet_300
+import com.example.compose.Licorice_900
 import com.samedtemiz.fitlife.R
-import com.samedtemiz.fitlife.ui.app.AppSettings
 import com.samedtemiz.fitlife.components.ButtonComponent
 import com.samedtemiz.fitlife.components.ClickableTextComponent
 import com.samedtemiz.fitlife.components.NormalTextBoxComponent
@@ -57,24 +56,36 @@ import com.samedtemiz.fitlife.components.PasswordTextBoxComponent
 import com.samedtemiz.fitlife.data.auth.login.LoginViewModel
 import com.samedtemiz.fitlife.data.auth.login.LoginFormEvent
 import com.samedtemiz.fitlife.data.auth.login.LoginUIState
-import com.samedtemiz.fitlife.navigation.AppRouter
 import com.samedtemiz.fitlife.navigation.Screen
 
 @Preview(showBackground = true, showSystemUi = true)
-@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun LoginScreenPreview() {
-    AppTheme {
-        LoginScreen()
-    }
+//        LoginScreen()
 }
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(
+    navController: NavController,
+    loginViewModel: LoginViewModel = viewModel()
+) {
 
     val state = loginViewModel.state
-    val isDarkMode = AppSettings.isDarkMode(LocalContext.current)
+
+
+    if (state.isSuccessLogin) {
+        /**
+         * Navigate to Authenticated navigation route
+         * once login is successful
+         */
+        LaunchedEffect(key1 = true) {
+            navController.navigate(Screen.Main.route) {
+                popUpTo(navController.graph.id) {
+                    inclusive = true
+                }
+            }
+        }
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -86,7 +97,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
         ) {
             Image(
                 painter = painterResource(
-                    id = if (isDarkMode) R.drawable.food_bg_dark else R.drawable.food_bg_light
+                    id = R.drawable.food_bg_dark
                 ),
                 contentDescription = "Login",
                 modifier = Modifier
@@ -108,7 +119,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
                             bottomEnd = 16.dp
                         )
                     )
-                    .background(MaterialTheme.colorScheme.background)
+                    .background(Licorice_900)
             )
 
             Column(
@@ -128,7 +139,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
                         loginViewModel.onEvent(LoginFormEvent.Submit)
                     },
                     onRegisterClick = {
-                        AppRouter.navigateTo(Screen.RegisterScreen)
+                        navController.navigate(Screen.Auth.Register.route)
                     },
                     enabledStatus = true
                 )
@@ -155,7 +166,7 @@ fun LoginHeader() {
             fontFamily = FontFamily(
                 Font(R.font.esprit_bold)
             ),
-            color = MaterialTheme.colorScheme.onSurface
+            color = Color.White
         )
         Text(
             text = "Sign in to continue",
@@ -164,7 +175,7 @@ fun LoginHeader() {
             fontFamily = FontFamily(
                 Font(R.font.esprit_bold)
             ),
-            color = MaterialTheme.colorScheme.onSurface
+            color = Color.White
         )
     }
 }
@@ -209,10 +220,10 @@ fun LoginFields(loginViewModel: LoginViewModel, state: LoginUIState) {
                 val (icon, iconColor) = if (showPassword.value) {
                     Pair(
                         Icons.Filled.Visibility,
-                        Color(0xFF40484d)
+                        Color.White
                     )
                 } else {
-                    Pair(Icons.Filled.VisibilityOff, Color(0xFF40484d))
+                    Pair(Icons.Filled.VisibilityOff, Comet_300)
                 }
 
                 IconButton(onClick = { showPassword.value = !showPassword.value }) {
@@ -238,9 +249,9 @@ fun LoginFields(loginViewModel: LoginViewModel, state: LoginUIState) {
                 .align(Alignment.End)
         ) {
             Text(
-                text = "Forgot your password?", fontFamily = FontFamily(
-                    Font(R.font.esprit_bold)
-                )
+                text = "Forgot your password?",
+                fontFamily = FontFamily(Font(R.font.esprit_bold)),
+                color = Comet_300
             )
         }
     }

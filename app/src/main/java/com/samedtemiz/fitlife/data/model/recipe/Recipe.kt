@@ -1,17 +1,17 @@
 package com.samedtemiz.fitlife.data.model.recipe
 
-import androidx.room.Entity
+import android.os.Parcelable
+import java.io.Serializable
 
-@Entity(tableName = "recipes")
 data class Recipe(
     val aggregateLikes: Int,
-    val analyzedInstructions: List<AnalyzedInstruction>,
+    val analyzedInstructions: List<Any>,
     val cheap: Boolean,
     val cookingMinutes: Int,
     val creditsText: String,
     val cuisines: List<Any>,
     val dairyFree: Boolean,
-    val diets: List<String>,
+    val diets: List<Any>,
     val dishTypes: List<String>,
     val extendedIngredients: List<ExtendedIngredient>,
     val gaps: String,
@@ -23,7 +23,7 @@ data class Recipe(
     val instructions: String,
     val license: String,
     val lowFodmap: Boolean,
-    val occasions: List<String>,
+    val occasions: List<Any>,
     val originalId: Any,
     val preparationMinutes: Int,
     val pricePerServing: Double,
@@ -39,5 +39,5 @@ data class Recipe(
     val vegetarian: Boolean,
     val veryHealthy: Boolean,
     val veryPopular: Boolean,
-    val weightWatcherSmartPoints: Int
+    val weightWatcherSmartPoints: Int,
 )

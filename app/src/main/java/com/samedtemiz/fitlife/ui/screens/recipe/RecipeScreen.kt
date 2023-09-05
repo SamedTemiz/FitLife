@@ -1,10 +1,22 @@
-package com.samedtemiz.fitlife.ui.screens.Recipe
+package com.samedtemiz.fitlife.ui.screens.recipe
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.Button
@@ -12,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,19 +39,53 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
-import com.google.accompanist.pager.*
+import com.example.compose.BurntSienna_500
+import com.example.compose.BurntSienna_800
+import com.example.compose.BurntSienna_900
+import com.example.compose.Comet_300
+import com.example.compose.Licorice_500
+import com.example.compose.Licorice_600
+import com.example.compose.Licorice_800
+import com.example.compose.RegentBlue_500
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
+import com.google.accompanist.pager.rememberPagerState
 import com.samedtemiz.fitlife.R
 import com.samedtemiz.fitlife.data.model.recipe.Recipe
+import com.samedtemiz.fitlife.ui.viewmodel.RecipeViewModel
 import kotlin.math.absoluteValue
 
 
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun RecipeScreen(
+    recipeViewModel: RecipeViewModel,
+    navController: NavController
+) {
+
+    val recipes = recipeViewModel.recipes.value
+
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        RecipeCardSlider(recipes = recipes, navController)
+    }
+}
+
 @ExperimentalPagerApi
 @Composable
-fun RecipeCardSlider(recipes: List<Recipe>) {
+fun RecipeCardSlider(recipes: List<Recipe>, navController: NavController) {
 
     val pagerState = rememberPagerState(
         pageCount = recipes.size,
@@ -61,7 +108,7 @@ fun RecipeCardSlider(recipes: List<Recipe>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface),
+            .background(Licorice_800),
     ) {
 
         //Horizontal dot indicator
@@ -69,8 +116,8 @@ fun RecipeCardSlider(recipes: List<Recipe>) {
             pagerState = pagerState, modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(0.dp, 20.dp, 0.dp, 0.dp),
-            activeColor = MaterialTheme.colorScheme.onBackground,
-            inactiveColor = MaterialTheme.colorScheme.secondaryContainer,
+            activeColor = BurntSienna_500,
+            inactiveColor = BurntSienna_800,
             indicatorWidth = 10.dp
         )
 
@@ -100,13 +147,13 @@ fun RecipeCardSlider(recipes: List<Recipe>) {
 
                 }
                 .fillMaxWidth()
-                .padding(25.dp, 20.dp, 25.dp, 40.dp),
+                .padding(20.dp, 20.dp, 20.dp, 20.dp),
 //                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
                 shape = RoundedCornerShape(20.dp),
-                backgroundColor = MaterialTheme.colorScheme.secondaryContainer
+                backgroundColor = Licorice_500
             ) {
                 // Card content
-                RecipeCard(recipes[page])
+                RecipeCard(recipes[page], navController)
             }
 
         }
@@ -115,8 +162,7 @@ fun RecipeCardSlider(recipes: List<Recipe>) {
 
 
 @Composable
-fun RecipeCard(recipe: Recipe) {
-    val scrollState = rememberScrollState()
+fun RecipeCard(recipe: Recipe, navController: NavController) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -131,15 +177,17 @@ fun RecipeCard(recipe: Recipe) {
                 .fillMaxHeight(0.4f),
             contentAlignment = Alignment.Center
         ) {
-            AsyncImage(
+            recipe.image?.let { image ->
+                AsyncImage(
 //                painter = painterResource(id = R.drawable.deneme_food),
-                model = recipe.image,
-                contentDescription = recipe.title,
-                modifier = Modifier
-                    .fillMaxSize(),
-                alignment = Alignment.CenterStart,
-                contentScale = ContentScale.FillHeight
-            )
+                    model = image,
+                    contentDescription = "Recipe",
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    alignment = Alignment.CenterStart,
+                    contentScale = ContentScale.FillHeight
+                )
+            }
         }
 
 
@@ -159,29 +207,32 @@ fun RecipeCard(recipe: Recipe) {
                         .fillMaxWidth()
                 ) {
 
-                    val contentColor = MaterialTheme.colorScheme.onBackground
+                    val contentColor = Color.White
                     Column(modifier = Modifier.padding(10.dp)) {
-                        Text(
-                            text = recipe.title,
-                            style = TextStyle(
-                                fontSize = 24.sp,
-                                textAlign = TextAlign.Center,
-                                fontFamily = FontFamily(
-                                    Font(R.font.posterama_light)
-                                )
-                            ),
-                            color = contentColor,
-                            letterSpacing = 2.sp,
-                            modifier = Modifier
-                                .border(
-                                    BorderStroke(
-                                        1.dp,
-                                        MaterialTheme.colorScheme.onBackground
+                        recipe.title?.let { title ->
+                            Text(
+                                text = title,
+                                style = TextStyle(
+                                    fontSize = 24.sp,
+                                    textAlign = TextAlign.Center,
+                                    fontFamily = FontFamily(
+                                        Font(R.font.posterama_light)
                                     )
-                                )
-                                .padding(5.dp)
-                                .fillMaxWidth()
-                        )
+                                ),
+                                color = contentColor,
+                                letterSpacing = 2.sp,
+                                modifier = Modifier
+                                    .border(
+                                        BorderStroke(
+                                            1.dp,
+                                            contentColor
+                                        )
+                                    )
+                                    .padding(5.dp)
+                                    .fillMaxWidth()
+                            )
+                        }
+
 
                         Spacer(Modifier.height(10.dp))
 
@@ -198,11 +249,14 @@ fun RecipeCard(recipe: Recipe) {
                                 tint = contentColor
                             )
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                            Text(
-                                "${recipe.readyInMinutes} minutes",
-                                fontSize = 11.sp,
-                                color = contentColor
-                            )
+                            recipe.readyInMinutes?.let { minutes ->
+                                Text(
+                                    "$minutes minutes",
+                                    fontSize = 12.sp,
+                                    color = contentColor
+                                )
+                            }
+
 
                             Spacer(Modifier.width(10.dp))
 
@@ -213,11 +267,14 @@ fun RecipeCard(recipe: Recipe) {
                                 tint = contentColor
                             )
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                            Text(
-                                "Serves ${recipe.servings}",
-                                fontSize = 11.sp,
-                                color = contentColor
-                            )
+                            recipe.servings?.let { servings ->
+                                Text(
+                                    "Serves $servings",
+                                    fontSize = 12.sp,
+                                    color = contentColor
+                                )
+                            }
+
 
                             Spacer(Modifier.width(10.dp))
 
@@ -228,15 +285,17 @@ fun RecipeCard(recipe: Recipe) {
                                 tint = contentColor
                             )
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                            Text(
-                                "Healthy %${recipe.healthScore}", fontSize = 11.sp,
-                                textAlign = TextAlign.Center,
-                                color = contentColor,
-                            )
+                            recipe.healthScore?.let { health ->
+                                Text(
+                                    "Healthy %$health", fontSize = 12.sp,
+                                    textAlign = TextAlign.Center,
+                                    color = contentColor,
+                                )
+                            }
                         }
 
                         Spacer(Modifier.height(10.dp))
-                        Divider(color = Color.Black, thickness = 1.dp)
+                        Divider(color = contentColor, thickness = 1.dp)
                     }
 
                 }
@@ -248,7 +307,9 @@ fun RecipeCard(recipe: Recipe) {
                 ) {
 
                     Button(
-                        onClick = {},
+                        onClick = {
+                            navController.navigate("detail/" + recipe.id)
+                        },
                         modifier = Modifier
                             .fillMaxWidth(0.5f),
                         contentPadding = PaddingValues(),
@@ -260,7 +321,7 @@ fun RecipeCard(recipe: Recipe) {
                                 .fillMaxWidth()
                                 .heightIn(48.dp)
                                 .background(
-                                    color = MaterialTheme.colorScheme.primary,
+                                    color = BurntSienna_500,
                                     shape = RoundedCornerShape(20.dp)
                                 ),
                             contentAlignment = Alignment.Center
@@ -273,7 +334,7 @@ fun RecipeCard(recipe: Recipe) {
                                 fontFamily = FontFamily(
                                     Font(R.font.avenir_next)
                                 ),
-                                color = MaterialTheme.colorScheme.surfaceVariant
+                                color = Color.White
                             )
 
                         }
@@ -286,4 +347,13 @@ fun RecipeCard(recipe: Recipe) {
         }
 
     }
+}
+
+@Preview(showSystemUi = true, heightDp = 700)
+@Composable
+fun RecipeScreenPreview() {
+    RecipeScreen(
+        recipeViewModel = viewModel(),
+        navController = rememberNavController()
+    )
 }

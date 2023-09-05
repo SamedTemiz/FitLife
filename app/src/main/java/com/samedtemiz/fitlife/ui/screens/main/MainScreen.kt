@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -31,40 +30,42 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.compose.AppTheme
-import com.samedtemiz.fitlife.ui.app.AppSettings
+import com.example.compose.BurntSienna_400
+import com.example.compose.BurntSienna_500
+import com.example.compose.Comet_300
+import com.example.compose.Licorice_800
+import com.example.compose.Licorice_900
 
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun MainScreenPreview() {
-    AppTheme {
-        MainScreen()
-    }
+//        MainScreen()
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen() {
+fun MainScreen(mainController: NavController) {
     val navController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         drawerElevation = 0.dp,
-        backgroundColor = MaterialTheme.colorScheme.background,
-        bottomBar = { BottomBar(navController = navController) }
+        backgroundColor = Licorice_800,
+        bottomBar = { BottomBar(navController = navController) },
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
         ) {
-            BottomNavGraph(navController = navController)
+            BottomNavGraph(navController = navController, mainController)
         }
     }
 }
@@ -72,11 +73,11 @@ fun MainScreen() {
 @Composable
 fun BottomBar(navController: NavHostController) {
     val screens = listOf(
-        BottomBarScreen.Recipe,
-        BottomBarScreen.Calorie,
-        BottomBarScreen.Home,
-        BottomBarScreen.Health,
-        BottomBarScreen.Profile
+        BottomBarScreen.Base.Recipe,
+        BottomBarScreen.Base.Calorie,
+        BottomBarScreen.Base.Home,
+        BottomBarScreen.Base.Health,
+        BottomBarScreen.Base.Profile
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -84,8 +85,8 @@ fun BottomBar(navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
+    horizontalArrangement = Arrangement.SpaceEvenly,
+    verticalAlignment = Alignment.CenterVertically
     ) {
         screens.forEach { screen ->
             AddItem(
@@ -103,22 +104,16 @@ fun RowScope.AddItem(
     currentDestination: NavDestination?,
     navController: NavHostController
 ) {
-
     val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
-    val isDarkMode = AppSettings.isDarkMode(LocalContext.current)
-    val contentColor =
-        if (selected)
-            if (isDarkMode) Color(0xFFffb4a1) else Color(0xFFb22b00)
-        else {
-            if (isDarkMode) Color(0xFFede0dd) else Color(0xFF201a19)
-        }
+    val contentColor = if(selected) BurntSienna_400 else Comet_300
+
     Box(
         modifier = Modifier
             .drawBehind {
                 val strokeWidth = 4.dp.toPx()
                 val borderColor =
                     if (selected)
-                        if (isDarkMode) Color(0xFFffb4a1) else Color(0xFFb22b00)
+                        contentColor
                     else {
                         Color.Transparent
                     }

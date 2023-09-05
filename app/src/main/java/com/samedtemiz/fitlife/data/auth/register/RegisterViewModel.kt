@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.samedtemiz.fitlife.data.auth.AuthValidator
-import com.samedtemiz.fitlife.navigation.AppRouter
 import com.samedtemiz.fitlife.navigation.Screen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -104,7 +103,7 @@ class RegisterViewModel : ViewModel() {
                         ) { isSuccessful ->
 
                             if (isSuccessful) {
-                                AppRouter.navigateTo(Screen.MainScreen)
+//                                AppRouter.navigateTo(Screen.MainScreen)
                                 state = state.copy(isSuccessLogin = true)
                             } else {
                                 state = state.copy(

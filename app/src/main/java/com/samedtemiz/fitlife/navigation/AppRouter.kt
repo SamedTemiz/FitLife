@@ -2,20 +2,31 @@ package com.samedtemiz.fitlife.navigation
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import com.samedtemiz.fitlife.R
 
-sealed class Screen {
-    object WelcomeScreen : Screen()
-    object LoginScreen : Screen()
-    object RegisterScreen : Screen()
-    object MainScreen : Screen()
-}
+sealed class Screen(
+    val route: String,
+    val title: String
+){
+    sealed class Auth{
+        object Welcome : Screen(
+            route = "welcome",
+            title = "Welcome"
+        )
 
-object AppRouter {
+        object Login : Screen(
+            route = "login",
+            title = "Login"
+        )
 
-    var currentScreen: MutableState<Screen> = mutableStateOf(Screen.WelcomeScreen)
-
-    fun navigateTo(destination: Screen) {
-        currentScreen.value = destination
+        object Register : Screen(
+            route = "register",
+            title = "Register"
+        )
     }
 
+    object Main : Screen(
+        route = "main",
+        title = "Main"
+    )
 }

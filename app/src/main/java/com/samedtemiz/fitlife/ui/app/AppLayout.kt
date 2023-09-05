@@ -2,69 +2,88 @@ package com.samedtemiz.fitlife.ui.app
 
 import android.content.Context
 import android.content.res.Configuration
-import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.compose.AppTheme
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import com.samedtemiz.fitlife.data.auth.home.HomeViewModel
-import com.samedtemiz.fitlife.navigation.AppRouter
 import com.samedtemiz.fitlife.navigation.Screen
 import com.samedtemiz.fitlife.ui.screens.auth.LoginScreen
-import com.samedtemiz.fitlife.ui.screens.main.MainScreen
 import com.samedtemiz.fitlife.ui.screens.auth.RegisterScreen
 import com.samedtemiz.fitlife.ui.screens.auth.WelcomeScreen
+import com.samedtemiz.fitlife.ui.screens.main.MainScreen
+import com.samedtemiz.fitlife.ui.screens.main.enter_RightAnimation
+import com.samedtemiz.fitlife.ui.screens.main.exit_RightAnimation
 
 
 @Composable
-fun AppLayout(homeViewModel: HomeViewModel = viewModel()) {
+fun AppLayout(
+    navController: NavHostController,
+    homeViewModel: HomeViewModel = viewModel()
+) {
 
-    //Oturum açık mı diye kontrol ediyoruz
-    homeViewModel.checkForActiveSession()
+    NavHost(
+        navController = navController,
+        startDestination = userStatus(homeViewModel) // Main or Welcome screen
+    ) {
+        navigation(
+            startDestination = Screen.Auth.Welcome.route,
+            route = "auth"
+        ){
+            composable(
+                route = Screen.Auth.Welcome.route,
+                exitTransition = exit_RightAnimation(),
+                popEnterTransition = enter_RightAnimation()
+            ) {
+                WelcomeScreen(navController = navController)
+            }
 
-    AppTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Color.White
+            composable(
+                route = Screen.Auth.Login.route,
+                exitTransition = exit_RightAnimation(),
+                popEnterTransition = enter_RightAnimation()
+            ) {
+                LoginScreen(navController = navController)
+            }
+
+            composable(
+                route = Screen.Auth.Register.route,
+                exitTransition = exit_RightAnimation(),
+                popEnterTransition = enter_RightAnimation()
+            ) {
+                RegisterScreen(navController = navController)
+            }
+        }
+
+        composable(
+            route = Screen.Main.route,
+            exitTransition = exit_RightAnimation(),
+            popEnterTransition = enter_RightAnimation()
         ) {
-
-            if (homeViewModel.isUserLoggedIn.value == true) {
-                AppRouter.navigateTo(Screen.MainScreen)
-            }
-
-            Crossfade(targetState = AppRouter.currentScreen, label = "Navigation") { currentState ->
-
-                when (currentState.value) {
-                    is Screen.WelcomeScreen -> {
-                        WelcomeScreen()
-                    }
-
-                    is Screen.LoginScreen -> {
-                        LoginScreen()
-                    }
-
-                    is Screen.RegisterScreen -> {
-                        RegisterScreen()
-                    }
-
-                    is Screen.MainScreen -> {
-                        MainScreen()
-                    }
-
-                    else -> {}
-                }
-            }
+            MainScreen(mainController = navController)
         }
     }
 
 }
 
-object AppSettings{
+fun userStatus(homeViewModel: HomeViewModel): String{
+
+    //Oturum açık mı diye kontrol ediyoruz
+    homeViewModel.checkForActiveSession()
+
+    if (homeViewModel.isUserLoggedIn == true) {
+        return Screen.Main.route
+    }else{
+        return "auth"
+    }
+}
+
+object AppSettings {
     fun isDarkMode(context: Context): Boolean {
-        val darkModeFlag = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val darkModeFlag =
+            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return darkModeFlag == Configuration.UI_MODE_NIGHT_YES
     }
 }
