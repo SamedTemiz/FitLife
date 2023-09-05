@@ -1,5 +1,6 @@
 package com.samedtemiz.fitlife.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -67,11 +68,19 @@ fun CalorieScreen(calorieViewModel: CalorieViewModel = viewModel()) {
         modifier = Modifier
             .fillMaxSize()
     ) {
+        Image(
+            painter = painterResource(
+                id = R.drawable.flamingo_bg
+            ),
+            contentDescription = "Calorie Screen",
+            modifier = Modifier
+                .fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Licorice_800)
         ) {
 
             Box(

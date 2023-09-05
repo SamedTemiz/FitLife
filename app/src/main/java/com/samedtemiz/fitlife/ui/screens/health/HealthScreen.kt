@@ -47,6 +47,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.compose.Comet_300
 import com.example.compose.Comet_400
 import com.example.compose.Licorice_400
@@ -54,20 +56,36 @@ import com.example.compose.Licorice_500
 import com.example.compose.Licorice_800
 import com.example.compose.RegentBlue_700
 import com.samedtemiz.fitlife.R
+import com.samedtemiz.fitlife.ui.screens.main.BottomBarScreen
+import com.samedtemiz.fitlife.ui.viewmodel.Gender
+import com.samedtemiz.fitlife.ui.viewmodel.HealthViewModel
 
-enum class Gender {
-    MALE,
-    FEMALE
-}
 
 @Composable
-fun HealthScreen() {
+fun HealthScreen(
+    healthViewModel: HealthViewModel,
+    navController: NavController
+) {
     Surface(
         Modifier
             .fillMaxSize(),
         color = Licorice_800
     ) {
         val scrollState = rememberScrollState()
+
+        var selectedGender by remember { mutableStateOf(Gender.MALE) }
+        var heightSlider by remember { mutableFloatStateOf(150f) }
+        var weight by remember { mutableIntStateOf(75) }
+        var age by remember { mutableIntStateOf(24) }
+        var activitySlider by remember { mutableFloatStateOf(2f) }
+        val activityList = listOf(
+            "Sedentary",
+            "Light",
+            "Moderate",
+            "Active",
+            "Very Active",
+        )
+
         Column(
             Modifier
                 .fillMaxSize()
@@ -79,7 +97,7 @@ fun HealthScreen() {
                     .fillMaxWidth()
                     .height(125.dp)
             ) {
-                var selectedGender by remember { mutableStateOf(Gender.MALE) }
+
 
                 Box(
                     Modifier
@@ -168,7 +186,7 @@ fun HealthScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                var heightSlider by remember { mutableFloatStateOf(150f) }
+
 
                 Text(
                     text = "HEIGHT",
@@ -235,7 +253,7 @@ fun HealthScreen() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    var weight by remember { mutableIntStateOf(75) }
+
 
                     Text(
                         text = "WEIGHT",
@@ -313,7 +331,7 @@ fun HealthScreen() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    var age by remember { mutableIntStateOf(24) }
+
 
                     Text(
                         text = "AGE",
@@ -390,14 +408,7 @@ fun HealthScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                var activitySlider by remember { mutableFloatStateOf(2f) }
-                val activityList = listOf(
-                    "Sedentary",
-                    "Light",
-                    "Moderate",
-                    "Active",
-                    "Very Active",
-                )
+
 
                 Text(
                     text = "ACTIVITY",
@@ -444,7 +455,17 @@ fun HealthScreen() {
                     .height(50.dp)
             ) {
                 Button(
-                    onClick = {/*TO DO */ },
+                    onClick = {
+
+                        // ViewModel'e kullanıcının girdilerini güncellemek için
+                        healthViewModel.gender = selectedGender
+                        healthViewModel.height = heightSlider.toDouble()
+                        healthViewModel.weight = weight.toDouble()
+                        healthViewModel.age = age
+                        healthViewModel.activityLevel = activitySlider.toInt()
+
+                        navController.navigate(BottomBarScreen.Detail.HealthResult.route)
+                    },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = RegentBlue_700
                     ),
@@ -466,8 +487,8 @@ fun HealthScreen() {
     }
 }
 
-@Preview(showSystemUi = true, heightDp = 700)
-@Composable
-fun DefaultPreview() {
-    HealthScreen()
-}
+//@Preview(showSystemUi = true, heightDp = 700)
+//@Composable
+//fun DefaultPreview() {
+//    HealthScreen()
+//}

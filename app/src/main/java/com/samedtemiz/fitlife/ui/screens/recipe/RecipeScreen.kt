@@ -1,6 +1,7 @@
 package com.samedtemiz.fitlife.ui.screens.recipe
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -79,6 +80,15 @@ fun RecipeScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
+        Image(
+            painter = painterResource(
+                id = R.drawable.timsah_bg
+            ),
+            contentDescription = "Recipe Screen",
+            modifier = Modifier
+                .fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
         RecipeCardSlider(recipes = recipes, navController)
     }
 }
@@ -107,8 +117,7 @@ fun RecipeCardSlider(recipes: List<Recipe>, navController: NavController) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Licorice_800),
+            .fillMaxSize(),
     ) {
 
         //Horizontal dot indicator

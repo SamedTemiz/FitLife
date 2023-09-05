@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.samedtemiz.fitlife.data.model.ingredient.Ingredient
 
 
-class CalorieViewModel() : ViewModel() {
+class CalorieViewModel : ViewModel() {
 
     private val _ingredientList = MutableLiveData<List<Ingredient>>()
     val ingredientList: LiveData<List<Ingredient>> = _ingredientList

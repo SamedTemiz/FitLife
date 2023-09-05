@@ -27,6 +27,7 @@ import com.samedtemiz.fitlife.ui.screens.health.HealthResultScreen
 import com.samedtemiz.fitlife.ui.screens.recipe.DetailScreen
 import com.samedtemiz.fitlife.ui.screens.recipe.RecipeScreen
 import com.samedtemiz.fitlife.ui.viewmodel.CalorieViewModel
+import com.samedtemiz.fitlife.ui.viewmodel.HealthViewModel
 import com.samedtemiz.fitlife.ui.viewmodel.RecipeViewModel
 
 
@@ -37,6 +38,7 @@ const val HEALTH_RESULT_ROUTE = "healthResult"
 fun BottomNavGraph(navController: NavHostController, mainController: NavController) {
     val recipeViewModel: RecipeViewModel = viewModel()
     val calorieViewModel: CalorieViewModel = viewModel()
+    val healthViewModel: HealthViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -75,7 +77,7 @@ fun BottomNavGraph(navController: NavHostController, mainController: NavControll
                 exitTransition = exit_RightAnimation(),
                 popEnterTransition = enter_RightAnimation()
             ) {
-                HealthScreen()
+                HealthScreen(healthViewModel, navController)
             }
 
             composable(
@@ -107,7 +109,7 @@ fun BottomNavGraph(navController: NavHostController, mainController: NavControll
             exitTransition = exit_RightAnimation(),
             popEnterTransition = enter_RightAnimation()
         ) {
-            HealthResultScreen()
+            HealthResultScreen(healthViewModel)
         }
     }
 }
