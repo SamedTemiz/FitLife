@@ -54,6 +54,7 @@ import com.example.compose.BurntSienna_900
 import com.example.compose.Comet_300
 import com.example.compose.Licorice_500
 import com.example.compose.Licorice_600
+import com.example.compose.Licorice_700
 import com.example.compose.Licorice_800
 import com.example.compose.RegentBlue_500
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -82,7 +83,7 @@ fun RecipeScreen(
     ) {
         Image(
             painter = painterResource(
-                id = R.drawable.timsah_bg
+                id = R.drawable.pear_bg
             ),
             contentDescription = "Recipe Screen",
             modifier = Modifier
@@ -159,7 +160,7 @@ fun RecipeCardSlider(recipes: List<Recipe>, navController: NavController) {
                 .padding(20.dp, 20.dp, 20.dp, 20.dp),
 //                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
                 shape = RoundedCornerShape(20.dp),
-                backgroundColor = Licorice_500
+                backgroundColor = Licorice_600
             ) {
                 // Card content
                 RecipeCard(recipes[page], navController)

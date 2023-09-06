@@ -286,13 +286,17 @@ fun SearchBarTextComponent(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = Color.White,
             cursorColor = BurntSienna_500,
-            focusedBorderColor = BurntSienna_400,
-            unfocusedBorderColor = BurntSienna_500,
-            focusedTrailingIconColor = BurntSienna_400,
-            unfocusedTrailingIconColor = BurntSienna_500,
-            focusedLabelColor = BurntSienna_400,
-            unfocusedLabelColor = BurntSienna_500,
+            focusedBorderColor = Color.White,
+            unfocusedBorderColor = Comet_300,
+            errorBorderColor = BurntSienna_400,
+            focusedLeadingIconColor = Color.White,
+            unfocusedLeadingIconColor = Comet_300,
+            errorLeadingIconColor = BurntSienna_400,
+            focusedLabelColor = Color.White,
+            unfocusedLabelColor = Comet_300,
+            errorLabelColor = BurntSienna_400,
             placeholderColor = Comet_300,
+            errorSupportingTextColor = BurntSienna_400,
             selectionColors = TextSelectionColors(handleColor = Color.White, backgroundColor = Comet_500)
         )
     )

@@ -70,7 +70,7 @@ fun CalorieScreen(calorieViewModel: CalorieViewModel = viewModel()) {
     ) {
         Image(
             painter = painterResource(
-                id = R.drawable.flamingo_bg
+                id = R.drawable.dark_bg
             ),
             contentDescription = "Calorie Screen",
             modifier = Modifier
@@ -161,7 +161,7 @@ fun IngredientCard(ingredient: Ingredient) {
                             fontFamily = FontFamily(
                                 Font(headerFont)
                             ),
-                            color = BurntSienna_500
+                            color = Licorice_900
                         ),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()

@@ -109,7 +109,7 @@ fun BottomNavGraph(navController: NavHostController, mainController: NavControll
             exitTransition = exit_RightAnimation(),
             popEnterTransition = enter_RightAnimation()
         ) {
-            HealthResultScreen(healthViewModel)
+            HealthResultScreen(healthViewModel, navController)
         }
     }
 }

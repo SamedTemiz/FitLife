@@ -42,8 +42,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.compose.BurntSienna_500
 import com.example.compose.Comet_300
-import com.example.compose.Licorice_500
-import com.example.compose.Licorice_600
 import com.example.compose.Licorice_700
 import com.example.compose.Licorice_800
 import com.google.android.material.textview.MaterialTextView
@@ -287,10 +285,12 @@ fun Content(recipe: Recipe) {
     Column(
         modifier = Modifier
             .verticalScroll(state = scrollState)
+            .background(Licorice_700)
     ) {
         Column(
             Modifier
                 .padding(20.dp)
+
         ) {
 
             val circleColor = Color.White

@@ -1,4 +1,5 @@
 package com.example.compose
+
 import androidx.compose.ui.graphics.Color
 
 // Licorice
@@ -50,6 +51,24 @@ val Comet_600 = Color(0xFF4C505F)
 val Comet_500 = Color(0xFF61677A)
 val Comet_400 = Color(0xFF82879A)
 val Comet_300 = Color(0xFFA5AAB7)
+
+// BMI Scale
+val Normal_500 = Color(0xFF2eb89e)
+val Normal_600 = Color(0xFF55e2b7)
+val Overweight_500 = Color(0xFFf1d480)
+val Overweight_600 = Color(0xFFff9e7e)
+val Obesity_500 = Color(0xFFfa7570)
+val Obesity_600 = Color(0xFFec584e)
+
+val scaleColorList = listOf(
+    Normal_500,
+    Normal_600,
+    Overweight_500,
+    Overweight_600,
+    Obesity_500,
+    Obesity_600
+)
+
 
 
 
