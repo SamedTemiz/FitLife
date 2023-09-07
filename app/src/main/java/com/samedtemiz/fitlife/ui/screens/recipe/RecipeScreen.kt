@@ -90,7 +90,10 @@ fun RecipeScreen(
                 .fillMaxSize(),
             contentScale = ContentScale.Crop
         )
-        RecipeCardSlider(recipes = recipes, navController)
+
+        if(recipes.isNotEmpty()){
+            RecipeCardSlider(recipes = recipes, navController)
+        }
     }
 }
 
