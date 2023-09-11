@@ -1,4 +1,4 @@
-package com.samedtemiz.fitlife.data.auth.home
+package com.samedtemiz.fitlife.ui.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -23,7 +23,6 @@ class HomeViewModel : ViewModel() {
     }
 
     fun logout() {
-
         val firebaseAuth = FirebaseAuth.getInstance()
         isLoading = true
         firebaseAuth.signOut()
@@ -41,5 +40,4 @@ class HomeViewModel : ViewModel() {
 
         firebaseAuth.addAuthStateListener(authStateListener)
     }
-
 }

@@ -42,6 +42,7 @@ import com.example.compose.BurntSienna_500
 import com.example.compose.Comet_300
 import com.example.compose.Licorice_800
 import com.example.compose.Licorice_900
+import com.samedtemiz.fitlife.ui.viewmodel.HomeViewModel
 
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
@@ -52,7 +53,11 @@ fun MainScreenPreview() {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(mainController: NavController) {
+fun MainScreen(
+    mainController: NavController,
+    homeViewModel: HomeViewModel
+) {
+
     val navController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -65,7 +70,7 @@ fun MainScreen(mainController: NavController) {
                 .fillMaxSize()
                 .padding(it)
         ) {
-            BottomNavGraph(navController = navController, mainController)
+            BottomNavGraph(navController = navController, mainController, homeViewModel)
         }
     }
 }
@@ -85,8 +90,8 @@ fun BottomBar(navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
-    horizontalArrangement = Arrangement.SpaceEvenly,
-    verticalAlignment = Alignment.CenterVertically
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         screens.forEach { screen ->
             AddItem(
@@ -105,7 +110,7 @@ fun RowScope.AddItem(
     navController: NavHostController
 ) {
     val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
-    val contentColor = if(selected) BurntSienna_400 else Comet_300
+    val contentColor = if (selected) BurntSienna_400 else Comet_300
 
     Box(
         modifier = Modifier

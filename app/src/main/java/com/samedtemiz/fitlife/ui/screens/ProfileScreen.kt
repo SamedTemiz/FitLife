@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.samedtemiz.fitlife.R
 import com.samedtemiz.fitlife.components.ButtonComponent
-import com.samedtemiz.fitlife.data.auth.home.HomeViewModel
+import com.samedtemiz.fitlife.ui.viewmodel.HomeViewModel
 
 
 @Composable

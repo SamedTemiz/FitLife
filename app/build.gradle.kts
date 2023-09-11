@@ -90,7 +90,7 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
 
 
-    // custom design system based on Foundation)
+    // Custom design system based on Foundation
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.material:material:1.5.0")
@@ -126,7 +126,6 @@ dependencies {
     // Retrofit Dependency
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.4.0")
 
 
     // Coil
@@ -139,21 +138,8 @@ dependencies {
     implementation("com.google.accompanist:accompanist-pager-indicators:0.13.0")
 
 
-    // RxJava
-    implementation("io.reactivex.rxjava3:rxjava:3.1.7")
-    implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
-
-
-    // Squareupp
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
-
-    // RoomDB
-    val room_version = "2.5.2"
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-
     // Google Maps
     implementation("com.google.maps.android:maps-compose:2.14.0")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.24.13-rc")
 }
