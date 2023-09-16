@@ -1,4 +1,4 @@
-package com.samedtemiz.fitlife.ui.viewmodel
+package com.samedtemiz.fitlife.viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

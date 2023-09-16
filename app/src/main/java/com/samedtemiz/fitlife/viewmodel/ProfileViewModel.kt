@@ -1,4 +1,4 @@
-package com.samedtemiz.fitlife.ui.viewmodel
+package com.samedtemiz.fitlife.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 
-class HomeViewModel : ViewModel() {
+class ProfileViewModel : ViewModel() {
 
     var isUserLoggedIn by mutableStateOf(false)
     var isLoading by mutableStateOf(false)

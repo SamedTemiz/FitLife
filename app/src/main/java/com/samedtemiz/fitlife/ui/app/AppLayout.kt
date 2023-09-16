@@ -5,13 +5,14 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.samedtemiz.fitlife.ui.viewmodel.HomeViewModel
+import com.samedtemiz.fitlife.viewmodel.HomeViewModel
 import com.samedtemiz.fitlife.navigation.Screen
 import com.samedtemiz.fitlife.ui.screens.auth.LoginScreen
 import com.samedtemiz.fitlife.ui.screens.auth.RegisterScreen
@@ -19,21 +20,20 @@ import com.samedtemiz.fitlife.ui.screens.auth.WelcomeScreen
 import com.samedtemiz.fitlife.ui.screens.main.MainScreen
 import com.samedtemiz.fitlife.ui.screens.main.enter_RightAnimation
 import com.samedtemiz.fitlife.ui.screens.main.exit_RightAnimation
+import com.samedtemiz.fitlife.viewmodel.ProfileViewModel
 
-@SuppressLint("StaticFieldLeak")
-var appContext: Context? = null
 
+private lateinit var appContext : Context
 @Composable
 fun AppLayout(
     navController: NavHostController,
-    context: Context,
-    homeViewModel: HomeViewModel = viewModel()
+    profileViewModel: ProfileViewModel = viewModel()
 ) {
-    appContext = context
+    appContext = LocalContext.current
 
     NavHost(
         navController = navController,
-        startDestination = userStatus(homeViewModel) // Main or Welcome screen
+        startDestination = userStatus(profileViewModel) // Main or Welcome screen
     ) {
         navigation(
             startDestination = Screen.Auth.Welcome.route,
@@ -69,17 +69,17 @@ fun AppLayout(
             exitTransition = exit_RightAnimation(),
             popEnterTransition = enter_RightAnimation()
         ) {
-            MainScreen(mainController = navController, homeViewModel)
+            MainScreen(mainController = navController, profileViewModel)
         }
     }
 
 }
 
-fun userStatus(homeViewModel: HomeViewModel): String {
+fun userStatus(profileViewModel: ProfileViewModel): String {
     //Oturum açık mı diye kontrol ediyoruz
-    homeViewModel.checkForActiveSession()
+    profileViewModel.checkForActiveSession()
 
-    return if (homeViewModel.isUserLoggedIn) {
+    return if (profileViewModel.isUserLoggedIn) {
         Screen.Main.route
     } else {
         "auth"
@@ -91,7 +91,7 @@ fun toastMessage(msg: String){
 }
 
 fun checkPermissionFor(permission: String) : Boolean{
-    return ContextCompat.checkSelfPermission(appContext!!, permission) == PackageManager.PERMISSION_GRANTED
+    return ContextCompat.checkSelfPermission(appContext, permission) == PackageManager.PERMISSION_GRANTED
 }
 
 

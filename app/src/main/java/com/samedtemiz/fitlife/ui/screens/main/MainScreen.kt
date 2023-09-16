@@ -42,7 +42,8 @@ import com.example.compose.BurntSienna_500
 import com.example.compose.Comet_300
 import com.example.compose.Licorice_800
 import com.example.compose.Licorice_900
-import com.samedtemiz.fitlife.ui.viewmodel.HomeViewModel
+import com.samedtemiz.fitlife.viewmodel.HomeViewModel
+import com.samedtemiz.fitlife.viewmodel.ProfileViewModel
 
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
@@ -55,7 +56,7 @@ fun MainScreenPreview() {
 @Composable
 fun MainScreen(
     mainController: NavController,
-    homeViewModel: HomeViewModel
+    profileViewModel: ProfileViewModel
 ) {
 
     val navController = rememberNavController()
@@ -70,7 +71,7 @@ fun MainScreen(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            BottomNavGraph(navController = navController, mainController, homeViewModel)
+            BottomNavGraph(navController = navController, mainController, profileViewModel)
         }
     }
 }

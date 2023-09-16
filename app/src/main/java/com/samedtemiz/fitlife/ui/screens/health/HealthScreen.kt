@@ -59,8 +59,8 @@ import com.example.compose.Licorice_800
 import com.example.compose.RegentBlue_700
 import com.samedtemiz.fitlife.R
 import com.samedtemiz.fitlife.ui.screens.main.BottomBarScreen
-import com.samedtemiz.fitlife.ui.viewmodel.Gender
-import com.samedtemiz.fitlife.ui.viewmodel.HealthViewModel
+import com.samedtemiz.fitlife.viewmodel.Gender
+import com.samedtemiz.fitlife.viewmodel.HealthViewModel
 
 
 @Composable

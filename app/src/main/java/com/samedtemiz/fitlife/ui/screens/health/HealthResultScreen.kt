@@ -46,7 +46,7 @@ import com.example.compose.Licorice_600
 import com.example.compose.scaleColorList
 import com.samedtemiz.fitlife.R
 import com.samedtemiz.fitlife.ui.screens.main.BottomBarScreen
-import com.samedtemiz.fitlife.ui.viewmodel.HealthViewModel
+import com.samedtemiz.fitlife.viewmodel.HealthViewModel
 import java.math.RoundingMode
 import java.text.DecimalFormat
 

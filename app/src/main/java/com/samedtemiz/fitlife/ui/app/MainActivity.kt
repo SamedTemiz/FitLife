@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            AppLayout(navController = navController, this)
+            AppLayout(navController = navController)
         }
     }
 }

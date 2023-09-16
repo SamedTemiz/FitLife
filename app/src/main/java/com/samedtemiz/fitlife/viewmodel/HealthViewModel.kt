@@ -1,4 +1,4 @@
-package com.samedtemiz.fitlife.ui.viewmodel
+package com.samedtemiz.fitlife.viewmodel
 
 import androidx.lifecycle.ViewModel
 

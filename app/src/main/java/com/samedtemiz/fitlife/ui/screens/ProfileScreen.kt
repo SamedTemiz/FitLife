@@ -24,12 +24,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.samedtemiz.fitlife.R
 import com.samedtemiz.fitlife.components.ButtonComponent
-import com.samedtemiz.fitlife.ui.viewmodel.HomeViewModel
+import com.samedtemiz.fitlife.viewmodel.HomeViewModel
+import com.samedtemiz.fitlife.viewmodel.ProfileViewModel
 
 
 @Composable
 fun ProfileScreen(
-    homeViewModel: HomeViewModel = viewModel(),
+    profileViewModel: ProfileViewModel,
     onNavigateLogin: () -> Unit
 ) {
     Surface(
@@ -68,14 +69,14 @@ fun ProfileScreen(
                 ButtonComponent(
                     value = "LOGOUT",
                     onButtonClicked = {
-                        homeViewModel.logout()
-                        if (!homeViewModel.isUserLoggedIn) onNavigateLogin.invoke()
+                        profileViewModel.logout()
+                        if (!profileViewModel.isUserLoggedIn) onNavigateLogin.invoke()
                     },
                     isEnabled = true
                 )
             }
 
-            if (homeViewModel.isLoading) {
+            if (profileViewModel.isLoading) {
                 CircularProgressIndicator()
             }
         }

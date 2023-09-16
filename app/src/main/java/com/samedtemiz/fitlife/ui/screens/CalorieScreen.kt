@@ -52,7 +52,7 @@ import com.samedtemiz.fitlife.R
 import com.samedtemiz.fitlife.components.NormalTextBoxComponent
 import com.samedtemiz.fitlife.components.SearchBarTextComponent
 import com.samedtemiz.fitlife.data.model.ingredient.Ingredient
-import com.samedtemiz.fitlife.ui.viewmodel.CalorieViewModel
+import com.samedtemiz.fitlife.viewmodel.CalorieViewModel
 
 @Preview(showSystemUi = true, heightDp = 700)
 @Composable

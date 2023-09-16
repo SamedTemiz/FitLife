@@ -47,7 +47,7 @@ import com.example.compose.Licorice_800
 import com.google.android.material.textview.MaterialTextView
 import com.samedtemiz.fitlife.R
 import com.samedtemiz.fitlife.data.model.recipe.Recipe
-import com.samedtemiz.fitlife.ui.viewmodel.RecipeViewModel
+import com.samedtemiz.fitlife.viewmodel.RecipeViewModel
 import java.util.Locale
 
 @Composable
