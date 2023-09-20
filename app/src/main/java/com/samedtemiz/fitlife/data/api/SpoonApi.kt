@@ -1,6 +1,5 @@
 package com.samedtemiz.fitlife.data.api
 
-import com.samedtemiz.fitlife.data.model.air.AirQualityResponse
 import com.samedtemiz.fitlife.data.model.ingredient.Ingredient
 import com.samedtemiz.fitlife.data.model.recipe.Recipe
 import retrofit2.Response
@@ -36,12 +35,6 @@ interface SpoonApi {
         @Query("sortDirection") sortDirection: String,
         @Query("apiKey") apiKey: String
     ): Response<List<Ingredient>>
-
-    @GET("v1/currentConditions:lookup")
-    suspend fun getCurrentConditions(
-        @Query("key") apiKey: String
-    ): Response<AirQualityResponse>
-
 }
 
 data class RecipeResponse(val recipes: List<Recipe>)

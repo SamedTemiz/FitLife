@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.compose.BurntSienna_500
 import com.example.compose.Comet_300
 import com.example.compose.Licorice_900
 import com.samedtemiz.fitlife.R
@@ -145,7 +146,7 @@ fun RegisterScreen(
         }
 
         if (state.isLoading) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(color = BurntSienna_500)
         }
     }
 }

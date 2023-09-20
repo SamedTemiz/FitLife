@@ -24,7 +24,7 @@ class RecipeViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             try {
-                val response = recipeApi.getRandomRecipes(5, API_KEY2)
+                val response = recipeApi.getRandomRecipes(5, API_KEY)
                 if (response.isSuccessful) {
                     recipes.value = response.body()?.recipes ?: emptyList()
                 }
@@ -40,7 +40,7 @@ class RecipeViewModel : ViewModel() {
 
     suspend fun fetchRecipeDetail(recipeId: Int) {
         try {
-            val response = recipeApi.getRecipeInformation(recipeId, false, API_KEY2)
+            val response = recipeApi.getRecipeInformation(recipeId, false, API_KEY)
             if (response.isSuccessful) {
                 _selectedRecipe.value = response.body()
             } else {

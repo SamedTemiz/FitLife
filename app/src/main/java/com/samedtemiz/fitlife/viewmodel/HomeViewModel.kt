@@ -26,6 +26,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val geocoder = Geocoder(context, Locale.getDefault())
 
     var isProcess: Boolean = false
+
     init {
         isProcess = true
         locationManager.startLocationTracking()
@@ -33,7 +34,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             // Konum değiştiğinde LiveData'yı güncelleyin
             location?.let {
                 try {
-                    val addressList: MutableList<Address>? = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                    val addressList: MutableList<Address>? =
+                        geocoder.getFromLocation(it.latitude, it.longitude, 1)
 
                     if (addressList != null && addressList.isNotEmpty()) {
                         val address = addressList[0]
@@ -44,7 +46,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                             district = address.subAdminArea,// Doğru şekilde "address.locality" kullanın
                             latlng = it
                         )
-                    }else{
+                    } else {
                         Log.e("Geocoder", "Geocoder address is null or empty")
                     }
                 } catch (e: Exception) {
