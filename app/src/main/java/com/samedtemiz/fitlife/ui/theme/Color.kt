@@ -51,6 +51,7 @@ val Comet_600 = Color(0xFF4C505F)
 val Comet_500 = Color(0xFF61677A)
 val Comet_400 = Color(0xFF82879A)
 val Comet_300 = Color(0xFFA5AAB7)
+val Comet_100 = Color(0xFFf8f9fa)
 
 // BMI Scale
 val Normal_500 = Color(0xFF2eb89e)

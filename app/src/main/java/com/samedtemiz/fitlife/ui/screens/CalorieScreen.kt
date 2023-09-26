@@ -161,7 +161,7 @@ fun IngredientCard(ingredient: Ingredient) {
                             fontFamily = FontFamily(
                                 Font(headerFont)
                             ),
-                            color = Licorice_900
+                            color = Color.Black
                         ),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()

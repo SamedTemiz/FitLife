@@ -108,7 +108,8 @@ class RegisterViewModel : ViewModel() {
                             } else {
                                 state = state.copy(
                                     isSuccessLogin = false,
-                                    isLoading = false
+                                    isLoading = false,
+                                    registerError = "Email address already exists"
                                 )
                             }
 

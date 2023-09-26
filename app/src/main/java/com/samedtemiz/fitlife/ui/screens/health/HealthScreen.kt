@@ -469,7 +469,6 @@ fun HealthScreen(
             ) {
                 Button(
                     onClick = {
-
                         // ViewModel'e kullanıcının girdilerini güncellemek için
                         healthViewModel.gender = selectedGender
                         healthViewModel.height = heightSlider.toDouble()

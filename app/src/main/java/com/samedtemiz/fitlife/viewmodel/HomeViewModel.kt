@@ -10,6 +10,14 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.samedtemiz.fitlife.data.api.GoogleApi
+import com.samedtemiz.fitlife.data.api.LatLngData
+import com.samedtemiz.fitlife.data.api.LocationRequest
+import com.samedtemiz.fitlife.data.api.RetrofitClient
+import com.samedtemiz.fitlife.data.model.air.AirQualityResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.Locale
 
 
@@ -25,17 +33,26 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         com.samedtemiz.fitlife.components.LocationManager(context, 10000, 15f)
     private val geocoder = Geocoder(context, Locale.getDefault())
 
-    var isProcess: Boolean = false
+    val googleService = RetrofitClient.getGoogleRetrofit().create(GoogleApi::class.java)
+    val apiKey = com.samedtemiz.fitlife.BuildConfig.MAPS_API_KEY
 
+    private val _airQualityData = MutableLiveData<AirQualityResponse>()
+    val airQualityData: LiveData<AirQualityResponse> = _airQualityData
+
+    var isProcess: Boolean = false
     init {
         isProcess = true
+
         locationManager.startLocationTracking()
         locationManager.locationData.observeForever { location ->
             // Konum değiştiğinde LiveData'yı güncelleyin
-            location?.let {
+            location?.let {loc ->
                 try {
+                    // Air Quality
+                    getAirQualityData(loc.latitude, loc.longitude)
+
                     val addressList: MutableList<Address>? =
-                        geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                        geocoder.getFromLocation(loc.latitude, loc.longitude, 1)
 
                     if (addressList != null && addressList.isNotEmpty()) {
                         val address = addressList[0]
@@ -44,7 +61,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                             country = address.countryName,
                             city = address.adminArea,
                             district = address.subAdminArea,// Doğru şekilde "address.locality" kullanın
-                            latlng = it
+                            latlng = loc
                         )
                     } else {
                         Log.e("Geocoder", "Geocoder address is null or empty")
@@ -56,6 +73,32 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
             }
         }
+    }
+
+    fun getAirQualityData(latitude: Double, longitude: Double){
+        val locationRequest = LocationRequest(LatLngData(latitude, longitude))
+
+        val call = googleService.getCurrentConditions(locationRequest, apiKey)
+
+        call.enqueue(object : Callback<AirQualityResponse> {
+            override fun onResponse(call: Call<AirQualityResponse>, response: Response<AirQualityResponse>) {
+                if (response.isSuccessful) {
+                    _airQualityData.value = response.body()
+                    Log.e("RESPONSE SUCCESS", response.body()!!.regionCode)
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    errorBody?.let{
+                        Log.e("API Error", errorBody)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<AirQualityResponse>, t: Throwable) {
+                // Error processing
+                val errorMessage = "API Request Error: ${t.message}"
+                Log.e("API Error", errorMessage)
+            }
+        })
     }
 }
 

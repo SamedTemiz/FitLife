@@ -185,7 +185,7 @@ fun LoginHeader() {
 fun LoginFields(loginViewModel: LoginViewModel, state: LoginUIState) {
     Column {
         if (state.loginError != null) {
-            Text(text = state.loginError, color = Color.Red)
+            Text(text = state.loginError, color = BurntSienna_500)
         }
         //EMAIL
         NormalTextBoxComponent(
