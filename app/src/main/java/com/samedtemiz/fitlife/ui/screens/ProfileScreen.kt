@@ -2,6 +2,7 @@ package com.samedtemiz.fitlife.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +13,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +36,8 @@ fun ProfileScreen(
     profileViewModel: ProfileViewModel,
     onNavigateLogin: () -> Unit
 ) {
+    val user by profileViewModel.user.observeAsState()
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -54,15 +59,26 @@ fun ProfileScreen(
             contentAlignment = Alignment.Center
         ) {
             Column(
+                verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(20.dp)
+                modifier = Modifier
+                    .padding(20.dp)
+                    .fillMaxSize()
             ) {
                 Text(
-                    text = "PROFILE SCREEN",
+                    text = "PROFILE",
                     fontSize = 36.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
+                Column {
+                    Text(
+                        text = "Email: ${user!!.email}",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                }
 
                 Spacer(Modifier.height(20.dp))
 

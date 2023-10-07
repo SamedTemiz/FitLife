@@ -1,7 +1,6 @@
 package com.samedtemiz.fitlife.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,7 +21,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,13 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.example.compose.BurntSienna_400
 import com.example.compose.BurntSienna_500
-import com.example.compose.Licorice_500
-import com.example.compose.Licorice_800
 import com.example.compose.Licorice_900
 import com.samedtemiz.fitlife.R
-import com.samedtemiz.fitlife.components.NormalTextBoxComponent
 import com.samedtemiz.fitlife.components.SearchBarTextComponent
 import com.samedtemiz.fitlife.data.model.ingredient.Ingredient
 import com.samedtemiz.fitlife.viewmodel.CalorieViewModel
