@@ -198,7 +198,7 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
                     contentDescription = "Recipe",
                     modifier = Modifier
                         .fillMaxSize(),
-                    alignment = Alignment.CenterStart,
+                    alignment = Alignment.Center,
                     contentScale = ContentScale.FillHeight
                 )
             } else {

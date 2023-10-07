@@ -34,7 +34,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val geocoder = Geocoder(context, Locale.getDefault())
 
     val googleService = RetrofitClient.getGoogleRetrofit().create(GoogleApi::class.java)
-    val apiKey = com.samedtemiz.fitlife.BuildConfig.MAPS_API_KEY
 
     private val _airQualityData = MutableLiveData<AirQualityResponse>()
     val airQualityData: LiveData<AirQualityResponse> = _airQualityData
@@ -78,7 +77,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun getAirQualityData(latitude: Double, longitude: Double){
         val locationRequest = LocationRequest(LatLngData(latitude, longitude))
 
-        val call = googleService.getCurrentConditions(locationRequest, apiKey)
+        val call = googleService.getCurrentConditions(locationRequest, com.samedtemiz.fitlife.BuildConfig.MAPS_API_KEY)
 
         call.enqueue(object : Callback<AirQualityResponse> {
             override fun onResponse(call: Call<AirQualityResponse>, response: Response<AirQualityResponse>) {

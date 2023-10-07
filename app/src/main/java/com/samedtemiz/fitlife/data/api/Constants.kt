@@ -3,7 +3,4 @@ package com.samedtemiz.fitlife.data.api
 object Constants {
     const val SPOON_URL = "https://api.spoonacular.com/"
     const val GOOGLE_URL = "https://airquality.googleapis.com/"
-
-    const val API_KEY = "47fb11970371438ebeef3917f823abf7"
-    const val API_KEY2 = "e9041fe97c4c4e76b5844bb65d5e519f"
 }

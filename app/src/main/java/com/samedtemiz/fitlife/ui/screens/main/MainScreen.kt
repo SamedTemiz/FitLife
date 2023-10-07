@@ -77,8 +77,8 @@ fun BottomBar(navController: NavHostController) {
     val screens = listOf(
         BottomBarScreen.Base.Recipe,
 //        BottomBarScreen.Base.Calorie,
-        BottomBarScreen.Base.Health,
         BottomBarScreen.Base.Air,
+        BottomBarScreen.Base.Health,
 //        BottomBarScreen.Base.Profile
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()

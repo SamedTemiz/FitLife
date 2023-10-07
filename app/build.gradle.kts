@@ -14,10 +14,10 @@ android {
 
     defaultConfig {
         applicationId = "com.samedtemiz.fitlife"
-        minSdk = 25
+        minSdk = 31
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1.0.2"
 
         multiDexEnabled = true
 
@@ -104,7 +104,6 @@ dependencies {
 
     // Import the Firebase stuff
     implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-core:21.1.1")
 

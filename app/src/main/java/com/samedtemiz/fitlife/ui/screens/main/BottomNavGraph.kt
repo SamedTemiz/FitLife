@@ -46,7 +46,7 @@ fun BottomNavGraph(navController: NavHostController, mainController: NavControll
         startDestination = "base"
     ) {
         navigation(
-            startDestination = BottomBarScreen.Base.Health.route,
+            startDestination = BottomBarScreen.Base.Air.route,
             route = "base"
         ){
             composable(
