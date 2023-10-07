@@ -72,12 +72,19 @@ fun ProfileScreen(
                     color = Color.White
                 )
                 Column {
-                    Text(
-                        text = "Email: ${user!!.email}",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
+                    user.let {
+                        if (it != null) {
+                            if(it.email != null){
+                                Text(
+                                    text = "Email: ${it.email}",
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
+                                )
+                            }
+                        }
+                    }
+
                 }
 
                 Spacer(Modifier.height(20.dp))

@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -38,11 +37,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.BurntSienna_400
-import com.example.compose.BurntSienna_500
 import com.example.compose.Comet_300
 import com.example.compose.Licorice_800
-import com.example.compose.Licorice_900
-import com.samedtemiz.fitlife.viewmodel.HomeViewModel
 import com.samedtemiz.fitlife.viewmodel.ProfileViewModel
 
 @Preview(showSystemUi = true)
