@@ -121,7 +121,7 @@ fun WelcomeScreen(
                     Column {
                         Button(
                             onClick = {
-                                navController.navigate(Screen.Auth.Register.route)
+//                                navController.navigate(Screen.Auth.Register.route)
                             },
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -148,7 +148,7 @@ fun WelcomeScreen(
 
                         Button(
                             onClick = {
-                                navController.navigate(Screen.Auth.Login.route)
+//                                navController.navigate(Screen.Auth.Login.route)
                             },
                             modifier = Modifier
                                 .fillMaxWidth(),

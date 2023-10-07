@@ -27,6 +27,12 @@ sealed class BottomBarScreen(
             icon = R.drawable.home
         )
 
+        object Air : BottomBarScreen(
+            route = "air",
+            title = "Air",
+            icon = R.drawable.wind
+        )
+
         object Health : BottomBarScreen(
             route = "health",
             title = "Health",

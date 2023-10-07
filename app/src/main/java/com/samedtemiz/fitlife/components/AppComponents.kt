@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -54,6 +55,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -381,4 +383,64 @@ fun CircularProgressBar(
     }
 
 
+}
+
+@Composable
+fun HyperlinkText(
+    modifier: Modifier = Modifier,
+    fullText: String,
+    hyperLinks: Map<String, String>,
+    textStyle: TextStyle = TextStyle.Default,
+    linkTextColor: Color = Color.Blue,
+    linkTextFontWeight: FontWeight = FontWeight.Normal,
+    linkTextDecoration: TextDecoration = TextDecoration.None,
+    fontSize: TextUnit = TextUnit.Unspecified
+) {
+    val annotatedString = buildAnnotatedString {
+        append(fullText)
+
+        for((key, value) in hyperLinks){
+
+            val startIndex = fullText.indexOf(key)
+            val endIndex = startIndex + key.length
+            addStyle(
+                style = SpanStyle(
+                    color = linkTextColor,
+                    fontSize = fontSize,
+                    fontWeight = linkTextFontWeight,
+                    textDecoration = linkTextDecoration
+                ),
+                start = startIndex,
+                end = endIndex
+            )
+            addStringAnnotation(
+                tag = "URL",
+                annotation = value,
+                start = startIndex,
+                end = endIndex
+            )
+        }
+        addStyle(
+            style = SpanStyle(
+                fontSize = fontSize
+            ),
+            start = 0,
+            end = fullText.length
+        )
+    }
+
+    val uriHandler = LocalUriHandler.current
+
+    ClickableText(
+        modifier = modifier,
+        text = annotatedString,
+        style = textStyle,
+        onClick = {
+            annotatedString
+                .getStringAnnotations("URL", it, it)
+                .firstOrNull()?.let { stringAnnotation ->
+                    uriHandler.openUri(stringAnnotation.item)
+                }
+        }
+    )
 }

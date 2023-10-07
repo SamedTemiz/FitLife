@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -91,7 +92,7 @@ fun RecipeScreen(
             contentScale = ContentScale.Crop
         )
 
-        if(recipes.isNotEmpty()){
+        if (recipes.isNotEmpty()) {
             RecipeCardSlider(recipes = recipes, navController)
         }
     }
@@ -190,16 +191,18 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
                 .fillMaxHeight(0.4f),
             contentAlignment = Alignment.Center
         ) {
-            recipe.image?.let { image ->
+            if (recipe.image != null) {
                 AsyncImage(
 //                painter = painterResource(id = R.drawable.deneme_food),
-                    model = image,
+                    model = recipe.image,
                     contentDescription = "Recipe",
                     modifier = Modifier
                         .fillMaxSize(),
                     alignment = Alignment.CenterStart,
                     contentScale = ContentScale.FillHeight
                 )
+            } else {
+                ImageNotFound()
             }
         }
 
@@ -362,11 +365,40 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
     }
 }
 
+@Composable
+fun ImageNotFound() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(
+                painter = painterResource(id = R.drawable.dish),
+                contentDescription = "Image not found",
+                tint = Color.White,
+                modifier = Modifier.size(100.dp)
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+            Text(
+                text = "Image not found",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily(
+                    Font(R.font.avenir_next)
+                ),
+                color = Color.White
+            )
+        }
+    }
+}
+
 @Preview(showSystemUi = true, heightDp = 700)
 @Composable
 fun RecipeScreenPreview() {
-    RecipeScreen(
-        recipeViewModel = viewModel(),
-        navController = rememberNavController()
-    )
+//    RecipeScreen(
+//        recipeViewModel = viewModel(),
+//        navController = rememberNavController()
+//    )
+    ImageNotFound()
 }

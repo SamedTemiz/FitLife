@@ -140,7 +140,7 @@ fun RegisterScreen(
                         registerViewModel.onEvent(RegisterFormEvent.Submit)
                     },
                     onLoginClick = {
-                        navController.navigate(Screen.Auth.Login.route)
+//                        navController.navigate(Screen.Auth.Login.route)
                     },
                     enabledStatus = true
                 )

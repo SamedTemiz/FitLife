@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.samedtemiz.fitlife.viewmodel.HomeViewModel
 import com.samedtemiz.fitlife.navigation.Screen
+import com.samedtemiz.fitlife.ui.screens.SplashScreen
 import com.samedtemiz.fitlife.ui.screens.auth.LoginScreen
 import com.samedtemiz.fitlife.ui.screens.auth.RegisterScreen
 import com.samedtemiz.fitlife.ui.screens.auth.WelcomeScreen
@@ -33,8 +34,9 @@ fun AppLayout(
 
     NavHost(
         navController = navController,
-        startDestination = userStatus(profileViewModel) // Main or Welcome screen
+        startDestination = Screen.Splash.route // Main or Welcome screen
     ) {
+        /*
         navigation(
             startDestination = Screen.Auth.Welcome.route,
             route = "auth"
@@ -62,6 +64,10 @@ fun AppLayout(
             ) {
                 RegisterScreen(navController = navController)
             }
+        }*/
+
+        composable(route = Screen.Splash.route){
+            SplashScreen(navController = navController)
         }
 
         composable(
@@ -75,16 +81,16 @@ fun AppLayout(
 
 }
 
-fun userStatus(profileViewModel: ProfileViewModel): String {
-    //Oturum açık mı diye kontrol ediyoruz
-    profileViewModel.checkForActiveSession()
-
-    return if (profileViewModel.isUserLoggedIn) {
-        Screen.Main.route
-    } else {
-        "auth"
-    }
-}
+//fun userStatus(profileViewModel: ProfileViewModel): String {
+//    //Oturum açık mı diye kontrol ediyoruz
+//    profileViewModel.checkForActiveSession()
+//
+//    return if (profileViewModel.isUserLoggedIn) {
+//        Screen.Main.route
+//    } else {
+//        "auth"
+//    }
+//}
 
 fun toastMessage(msg: String){
     Toast.makeText(appContext, msg, Toast.LENGTH_SHORT).show()

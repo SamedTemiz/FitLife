@@ -46,7 +46,7 @@ fun BottomNavGraph(navController: NavHostController, mainController: NavControll
         startDestination = "base"
     ) {
         navigation(
-            startDestination = BottomBarScreen.Base.Home.route,
+            startDestination = BottomBarScreen.Base.Health.route,
             route = "base"
         ){
             composable(
@@ -67,6 +67,14 @@ fun BottomNavGraph(navController: NavHostController, mainController: NavControll
 
             composable(
                 route = BottomBarScreen.Base.Home.route,
+                exitTransition = exit_RightAnimation(),
+                popEnterTransition = enter_RightAnimation()
+            ) {
+                HomeScreen()
+            }
+
+            composable(
+                route = BottomBarScreen.Base.Air.route,
                 exitTransition = exit_RightAnimation(),
                 popEnterTransition = enter_RightAnimation()
             ) {
