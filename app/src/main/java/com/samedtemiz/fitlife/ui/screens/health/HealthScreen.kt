@@ -90,7 +90,7 @@ fun HealthScreen(
 
         Image(
             painter = painterResource(
-                id = R.drawable.dark_bg
+                id = R.drawable.pear_bg
             ),
             contentDescription = "Health Screen",
             modifier = Modifier
