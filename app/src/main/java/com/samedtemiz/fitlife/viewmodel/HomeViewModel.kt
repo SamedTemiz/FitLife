@@ -3,9 +3,11 @@ package com.samedtemiz.fitlife.viewmodel
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData

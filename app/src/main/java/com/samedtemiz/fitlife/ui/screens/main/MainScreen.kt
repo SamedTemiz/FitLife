@@ -29,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -39,7 +38,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.compose.BurntSienna_400
 import com.example.compose.Comet_300
 import com.example.compose.Licorice_800
-import com.samedtemiz.fitlife.viewmodel.ProfileViewModel
 
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
@@ -50,10 +48,7 @@ fun MainScreenPreview() {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(
-    mainController: NavController,
-    profileViewModel: ProfileViewModel
-) {
+fun MainScreen() {
 
     val navController = rememberNavController()
     Scaffold(
@@ -67,7 +62,7 @@ fun MainScreen(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            BottomNavGraph(navController = navController, mainController, profileViewModel)
+            BottomNavGraph(navController = navController)
         }
     }
 }

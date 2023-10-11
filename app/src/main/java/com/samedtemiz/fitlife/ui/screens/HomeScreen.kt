@@ -2,6 +2,10 @@ package com.samedtemiz.fitlife.ui.screens
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
+import android.provider.Settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,9 +15,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material3.CardDefaults
@@ -32,28 +36,25 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose.BurntSienna_500
+import com.example.compose.BurntSienna_900
 import com.example.compose.Comet_100
-import com.example.compose.Licorice_400
 import com.example.compose.Normal_500
 import com.example.compose.Normal_600
 import com.example.compose.Obesity_500
 import com.example.compose.Obesity_600
 import com.example.compose.Overweight_500
-import com.example.compose.RegentBlue_500
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
@@ -74,6 +75,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
+@SuppressLint("StaticFieldLeak")
+private lateinit var context: Context
+
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HomeScreen() {
@@ -92,17 +96,98 @@ fun HomeScreen() {
             contentScale = ContentScale.Crop
         )
 
+        context = LocalContext.current
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val isLocationEnabled by remember { mutableStateOf(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) }
+
         // Permission request
         RequestMultiplePermissions(
             permissions = listOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ),
-            content = { HomeScreenContent() }
+            content = {
+                LocationSettingsAlertDialog(
+                    onEnableLocationServices = {
+                        openLocationSettings(context)
+                    },
+                    isLocationServicesEnabled = isLocationEnabled
+                )
+            }
         )
     }
 }
 
+
+fun openLocationSettings(context: Context) {
+    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+    context.startActivity(intent)
+}
+
+@Composable
+fun LocationSettingsAlertDialog(
+    onEnableLocationServices: () -> Unit,
+    isLocationServicesEnabled: Boolean
+) {
+    val dialogShown = remember { mutableStateOf(false) }
+
+    if (!isLocationServicesEnabled && !dialogShown.value) {
+        AlertDialog(
+            onDismissRequest = {
+                dialogShown.value = false
+            },
+            title = {
+                Text("Enable Location Services")
+            },
+            text = {
+                Text("Location services are needed for this feature. Would you like to enable them?")
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        dialogShown.value = false
+                        onEnableLocationServices()
+                    }
+                ) {
+                    Text("Enable")
+                }
+            }
+        )
+
+        LaunchedEffect(dialogShown.value) {
+            delay(2000) // 2000 milisaniyelik (2 saniye) gecikme
+            dialogShown.value = true
+        }
+    }else{
+        dialogShown.value = true
+        HomeScreenContent()
+    }
+}
+
+
+@Composable
+fun LocationServicesEnable(onEnable: () -> Unit) {
+    Box(Modifier.background(Color.White)) {
+        Box(
+            Modifier
+                .align(Alignment.Center)
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = "Location service is not turned on")
+                Button(
+                    onClick = {
+                        onEnable.invoke()
+                    }, colors = ButtonDefaults.buttonColors(
+                        backgroundColor = BurntSienna_500,
+                        contentColor = BurntSienna_900
+                    )
+                ) {
+                    Text("Turn on")
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun HomeScreenContent(homeViewModel: HomeViewModel = viewModel()) {
@@ -110,7 +195,7 @@ fun HomeScreenContent(homeViewModel: HomeViewModel = viewModel()) {
     val airData by homeViewModel.airQualityData.observeAsState()
 
     var showButton by remember { mutableStateOf(false) }
-    var airQualityShow by remember { mutableStateOf(false) }
+    var airQualityShow by remember { mutableStateOf(true) }
     var airScaleColor by remember { mutableStateOf(BurntSienna_500) }
 
     var categoryBackgroundColor by remember { mutableStateOf(BurntSienna_500) }
@@ -149,27 +234,28 @@ fun HomeScreenContent(homeViewModel: HomeViewModel = viewModel()) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        CircularProgressIndicator(color = BurntSienna_500)
-                        Spacer(modifier = Modifier.height(10.dp))
 
                         var ticks by remember { mutableStateOf(0) }
+                        val delayTime = 10
                         LaunchedEffect(Unit) {
-                            while (ticks < 10) {
+                            while (ticks < delayTime) {
                                 delay(1.seconds)
                                 ticks++
                             }
                         }
-                        if (ticks < 10) {
+                        if (ticks < delayTime) {
+                            CircularProgressIndicator(color = BurntSienna_500)
+                            Spacer(modifier = Modifier.height(15.dp))
+
                             Text(
                                 "Waiting for location information...",
                                 Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center
                             )
                         } else {
-                            Text(
-                                "It looks like location service is not turned on, please turn location on.",
-                                Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Center
+                            LocationSettingsAlertDialog(
+                                onEnableLocationServices = { openLocationSettings(context) },
+                                isLocationServicesEnabled = false
                             )
                         }
                     }
@@ -271,7 +357,7 @@ fun ElevatedCardComposable(
     scaleColor: Color,
     categoryContext: String
 ) {
-    val airData = airData.indexes[0]
+    val air = airData.indexes[0]
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
@@ -286,7 +372,7 @@ fun ElevatedCardComposable(
             modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val percentage = airData.aqi.toFloat() / 100
+            val percentage = air.aqi.toFloat() / 100
 
             if (percentage == 0f) {
                 Image(
@@ -298,7 +384,7 @@ fun ElevatedCardComposable(
                         .fillMaxWidth(),
 
                     )
-            }else{
+            } else {
                 CircularProgressBar(percentage = percentage, number = 100, color = scaleColor)
             }
 
@@ -306,7 +392,7 @@ fun ElevatedCardComposable(
             Spacer(modifier = Modifier.height(24.dp))
             //.........................Text: title
             Text(
-                text = airData.category,
+                text = air.category,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(top = 10.dp)
@@ -346,7 +432,7 @@ fun colorToHex(
     return Color(red = redInt, green = greenInt, blue = blueInt, alpha = alphaInt)
 }
 
-fun resultTheme(aqi: Int) : Pair<Color, String>{
+fun resultTheme(aqi: Int): Pair<Color, String> {
     var categoryBackgroundColor = BurntSienna_500
     var categoryContext = ""
 
@@ -370,13 +456,6 @@ fun resultTheme(aqi: Int) : Pair<Color, String>{
 
     return categoryBackgroundColor to categoryContext
 }
-
-
-//@Preview(showSystemUi = true, heightDp = 700)
-//@Composable
-//fun HomeScreenPreview() {
-//    HomeScreenContent(homeViewModel = viewModel())
-//}
 
 
 

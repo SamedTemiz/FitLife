@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +50,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.example.compose.BurntSienna_500
 import com.example.compose.BurntSienna_800
 import com.example.compose.BurntSienna_900
@@ -193,13 +195,12 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
         ) {
             if (recipe.image != null) {
                 AsyncImage(
-//                painter = painterResource(id = R.drawable.deneme_food),
                     model = recipe.image,
                     contentDescription = "Recipe",
                     modifier = Modifier
                         .fillMaxSize(),
                     alignment = Alignment.Center,
-                    contentScale = ContentScale.FillHeight
+                    contentScale = ContentScale.FillHeight,
                 )
             } else {
                 ImageNotFound()

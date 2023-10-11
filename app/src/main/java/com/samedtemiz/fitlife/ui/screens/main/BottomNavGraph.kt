@@ -12,23 +12,18 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.samedtemiz.fitlife.ui.screens.CalorieScreen
 import com.samedtemiz.fitlife.ui.screens.health.HealthScreen
 import com.samedtemiz.fitlife.ui.screens.HomeScreen
-import com.samedtemiz.fitlife.ui.screens.ProfileScreen
 import com.samedtemiz.fitlife.ui.screens.health.HealthResultScreen
 import com.samedtemiz.fitlife.ui.screens.recipe.DetailScreen
 import com.samedtemiz.fitlife.ui.screens.recipe.RecipeScreen
-import com.samedtemiz.fitlife.viewmodel.CalorieViewModel
 import com.samedtemiz.fitlife.viewmodel.HealthViewModel
-import com.samedtemiz.fitlife.viewmodel.ProfileViewModel
 import com.samedtemiz.fitlife.viewmodel.RecipeViewModel
 
 
@@ -36,9 +31,8 @@ const val DETAIL_ROUTE = "detail/{id}"
 const val HEALTH_RESULT_ROUTE = "healthResult"
 
 @Composable
-fun BottomNavGraph(navController: NavHostController, mainController: NavController, profileViewModel: ProfileViewModel) {
+fun BottomNavGraph(navController: NavHostController) {
     val recipeViewModel: RecipeViewModel = viewModel()
-    val calorieViewModel: CalorieViewModel = viewModel()
     val healthViewModel: HealthViewModel = viewModel()
 
     NavHost(
@@ -58,22 +52,6 @@ fun BottomNavGraph(navController: NavHostController, mainController: NavControll
             }
 
             composable(
-                route = BottomBarScreen.Base.Calorie.route,
-                exitTransition = exit_RightAnimation(),
-                popEnterTransition = enter_RightAnimation()
-            ) {
-                CalorieScreen(calorieViewModel)
-            }
-
-            composable(
-                route = BottomBarScreen.Base.Home.route,
-                exitTransition = exit_RightAnimation(),
-                popEnterTransition = enter_RightAnimation()
-            ) {
-                HomeScreen()
-            }
-
-            composable(
                 route = BottomBarScreen.Base.Air.route,
                 exitTransition = exit_RightAnimation(),
                 popEnterTransition = enter_RightAnimation()
@@ -87,16 +65,6 @@ fun BottomNavGraph(navController: NavHostController, mainController: NavControll
                 popEnterTransition = enter_RightAnimation()
             ) {
                 HealthScreen(healthViewModel, navController)
-            }
-
-            composable(
-                route = BottomBarScreen.Base.Profile.route,
-                exitTransition = exit_RightAnimation(),
-                popEnterTransition = enter_RightAnimation()
-            ) {
-                ProfileScreen(profileViewModel){
-                    mainController.navigate("auth")
-                }
             }
         }
 

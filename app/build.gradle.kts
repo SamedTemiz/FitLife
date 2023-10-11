@@ -5,7 +5,6 @@ plugins {
     id("com.google.gms.google-services")
     id("kotlin-android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-//    id("com.google.secrets_gradle_plugin") version "0.4"
 }
 
 android {
@@ -16,8 +15,8 @@ android {
         applicationId = "com.samedtemiz.fitlife"
         minSdk = 31
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.0.2"
+        versionCode = 4
+        versionName = "1.1.0"
 
         multiDexEnabled = true
 
@@ -102,12 +101,6 @@ dependencies {
     implementation("com.google.accompanist:accompanist-navigation-animation:0.33.0-alpha")
 
 
-    // Import the Firebase stuff
-    implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
-    implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-core:21.1.1")
-
-
     // ViewModel
     val lifecycle_version = "2.6.1"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
@@ -119,7 +112,6 @@ dependencies {
 
     // Kotlin
     val nav_version = "2.7.1"
-    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
 

@@ -1,11 +1,17 @@
 package com.samedtemiz.fitlife.components
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import com.google.accompanist.permissions.*
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.MultiplePermissionsState
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.accompanist.permissions.shouldShowRationale
+
 
 @ExperimentalPermissionsApi
 @Composable
@@ -31,6 +37,7 @@ fun RequestMultiplePermissions(
     )
 }
 
+@SuppressLint("ServiceCast")
 @ExperimentalPermissionsApi
 @Composable
 private fun HandleRequests(
@@ -43,6 +50,7 @@ private fun HandleRequests(
         shouldShowRationale = it.status.shouldShowRationale
         it.status == PermissionStatus.Granted
     }
+
     if (result) {
         content()
     } else {

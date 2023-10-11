@@ -8,22 +8,6 @@ sealed class Screen(
     val route: String,
     val title: String
 ){
-//    sealed class Auth{
-//        object Welcome : Screen(
-//            route = "welcome",
-//            title = "Welcome"
-//        )
-//
-//        object Login : Screen(
-//            route = "login",
-//            title = "Login"
-//        )
-//
-//        object Register : Screen(
-//            route = "register",
-//            title = "Register"
-//        )
-//    }
     object Splash: Screen(
         route = "splash_screen",
         title = "Splash"
