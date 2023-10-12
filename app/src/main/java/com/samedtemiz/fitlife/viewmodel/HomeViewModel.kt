@@ -1,13 +1,10 @@
 package com.samedtemiz.fitlife.viewmodel
 
-
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationManager
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -22,7 +19,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.Locale
 
-
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     @SuppressLint("StaticFieldLeak")
@@ -35,7 +31,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         com.samedtemiz.fitlife.components.LocationManager(context, 10000, 15f)
     private val geocoder = Geocoder(context, Locale.getDefault())
 
-    val googleService = RetrofitClient.getGoogleRetrofit().create(GoogleApi::class.java)
+    private val googleService: GoogleApi = RetrofitClient.getGoogleRetrofit().create(GoogleApi::class.java)
 
     private val _airQualityData = MutableLiveData<AirQualityResponse>()
     val airQualityData: LiveData<AirQualityResponse> = _airQualityData
@@ -55,7 +51,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     val addressList: MutableList<Address>? =
                         geocoder.getFromLocation(loc.latitude, loc.longitude, 1)
 
-                    if (addressList != null && addressList.isNotEmpty()) {
+                    if (!addressList.isNullOrEmpty()) {
                         val address = addressList[0]
 
                         _location.value = LocationData(
@@ -76,7 +72,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getAirQualityData(latitude: Double, longitude: Double){
+    private fun getAirQualityData(latitude: Double, longitude: Double){
         val locationRequest = LocationRequest(LatLngData(latitude, longitude))
 
         val call = googleService.getCurrentConditions(locationRequest, com.samedtemiz.fitlife.BuildConfig.MAPS_API_KEY)

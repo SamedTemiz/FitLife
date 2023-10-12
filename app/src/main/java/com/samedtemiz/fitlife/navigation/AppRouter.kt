@@ -1,9 +1,5 @@
 package com.samedtemiz.fitlife.navigation
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import com.samedtemiz.fitlife.R
-
 sealed class Screen(
     val route: String,
     val title: String

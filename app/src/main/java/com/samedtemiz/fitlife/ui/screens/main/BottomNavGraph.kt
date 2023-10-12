@@ -94,7 +94,7 @@ fun BottomNavGraph(navController: NavHostController) {
 
 
 
-fun exit_RightAnimation(): @JvmSuppressWildcards() AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? {
+fun exit_RightAnimation(): @JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? {
     return {
         slideOutHorizontally(
             targetOffsetX = { -300 },
@@ -105,7 +105,7 @@ fun exit_RightAnimation(): @JvmSuppressWildcards() AnimatedContentTransitionScop
         ) + fadeOut(animationSpec = tween(300))
     }
 }
-fun enter_RightAnimation(): @JvmSuppressWildcards() AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? {
+fun enter_RightAnimation(): @JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? {
     return {
         slideInHorizontally(
             initialOffsetX = { 300 },

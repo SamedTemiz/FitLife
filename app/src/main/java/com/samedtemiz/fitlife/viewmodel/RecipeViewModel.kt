@@ -2,7 +2,6 @@ package com.samedtemiz.fitlife.viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.samedtemiz.fitlife.data.api.RetrofitClient
@@ -11,7 +10,6 @@ import com.samedtemiz.fitlife.data.model.recipe.Recipe
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-
 
 class RecipeViewModel : ViewModel() {
 

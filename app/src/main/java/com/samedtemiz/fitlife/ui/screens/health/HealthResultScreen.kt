@@ -112,7 +112,7 @@ fun HealthResultScreen(
                 Text(
                     text = "Your Result",
                     style = TextStyle(
-                        fontSize = 36.sp,
+                        fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
                         textAlign = TextAlign.Center

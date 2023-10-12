@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -98,7 +99,13 @@ fun HomeScreen() {
 
         context = LocalContext.current
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val isLocationEnabled by remember { mutableStateOf(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) }
+        val isLocationEnabled by remember {
+            mutableStateOf(
+                locationManager.isProviderEnabled(
+                    LocationManager.GPS_PROVIDER
+                )
+            )
+        }
 
         // Permission request
         RequestMultiplePermissions(
@@ -147,7 +154,11 @@ fun LocationSettingsAlertDialog(
                     onClick = {
                         dialogShown.value = false
                         onEnableLocationServices()
-                    }
+
+                    }, colors = ButtonDefaults.buttonColors(
+                        backgroundColor = BurntSienna_500,
+                        contentColor = BurntSienna_900
+                    )
                 ) {
                     Text("Enable")
                 }
@@ -158,36 +169,12 @@ fun LocationSettingsAlertDialog(
             delay(2000) // 2000 milisaniyelik (2 saniye) gecikme
             dialogShown.value = true
         }
-    }else{
+    } else {
         dialogShown.value = true
         HomeScreenContent()
     }
 }
 
-
-@Composable
-fun LocationServicesEnable(onEnable: () -> Unit) {
-    Box(Modifier.background(Color.White)) {
-        Box(
-            Modifier
-                .align(Alignment.Center)
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Location service is not turned on")
-                Button(
-                    onClick = {
-                        onEnable.invoke()
-                    }, colors = ButtonDefaults.buttonColors(
-                        backgroundColor = BurntSienna_500,
-                        contentColor = BurntSienna_900
-                    )
-                ) {
-                    Text("Turn on")
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun HomeScreenContent(homeViewModel: HomeViewModel = viewModel()) {
@@ -235,7 +222,7 @@ fun HomeScreenContent(homeViewModel: HomeViewModel = viewModel()) {
                         modifier = Modifier.fillMaxWidth()
                     ) {
 
-                        var ticks by remember { mutableStateOf(0) }
+                        var ticks by remember { mutableIntStateOf(0) }
                         val delayTime = 10
                         LaunchedEffect(Unit) {
                             while (ticks < delayTime) {
@@ -341,9 +328,8 @@ fun LocationOnGoogleMap(location: LocationData, airScaleColor: Color) {
             strokeColor = Color.Black,
             strokeWidth = 2f,
             tag = "DENEME",
-            onClick = { circle ->
+            onClick = {
                 // Handle circle click event
-
             }
         )
 
@@ -400,17 +386,20 @@ fun ElevatedCardComposable(
                 style = MaterialTheme.typography.headlineSmall,
                 color = BurntSienna_500,
             )
+
             Spacer(modifier = Modifier.height(8.dp))
             //.........................Text : description
-            Text(
-                text = categoryContext,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(top = 10.dp, start = 25.dp, end = 25.dp)
-                    .fillMaxWidth(),
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color(0xFF666666),
-            )
+            if (categoryContext.isNotEmpty()) {
+                Text(
+                    text = categoryContext,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(top = 10.dp, start = 25.dp, end = 25.dp)
+                        .fillMaxWidth(),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color(0xFF666666),
+                )
+            }
             //.........................Spacer
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -433,26 +422,33 @@ fun colorToHex(
 }
 
 fun resultTheme(aqi: Int): Pair<Color, String> {
-    var categoryBackgroundColor = BurntSienna_500
+    val categoryBackgroundColor: Color
     var categoryContext = ""
 
-    if (aqi in 0..19) {
-        categoryBackgroundColor = Obesity_600
-        categoryContext =
-            "Everyone may begin to experience some adverse health effects, and members of the sensitive groups may experience more serious effects."
-    } else if (aqi in 20..39) {
-        categoryBackgroundColor = Obesity_500
-        categoryContext =
-            "Although general public is not likely to be affected at this AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air."
-    } else if (aqi in 40..59) {
-        categoryBackgroundColor = Overweight_500
-        categoryContext =
-            "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people. For example, people who are unusually sensitive to ozone may experience respiratory symptoms."
-    } else if (aqi in 60..79) {
-        categoryBackgroundColor = Normal_600
-    } else {
-        categoryBackgroundColor = Normal_500
+    when (aqi) {
+        in 0..19 -> {
+            categoryBackgroundColor = Obesity_600
+            categoryContext =
+                "Everyone may begin to experience some adverse health effects, and members of the sensitive groups may experience more serious effects."
+        }
+        in 20..39 -> {
+            categoryBackgroundColor = Obesity_500
+            categoryContext =
+                "Although the general public is not likely to be affected at this AQI range, people with lung disease, older adults, and children are at greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults, and children are at greater risk from the presence of particles in the air."
+        }
+        in 40..59 -> {
+            categoryBackgroundColor = Overweight_500
+            categoryContext =
+                "Air quality is acceptable; however, for some pollutants, there may be a moderate health concern for a very small number of people. For example, people who are unusually sensitive to ozone may experience respiratory symptoms."
+        }
+        in 60..79 -> {
+            categoryBackgroundColor = Normal_600
+        }
+        else -> {
+            categoryBackgroundColor = Normal_500
+        }
     }
+
 
     return categoryBackgroundColor to categoryContext
 }

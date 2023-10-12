@@ -31,8 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.compose.Comet_300
-import com.example.compose.Comet_400
 import com.example.compose.Comet_500
 import com.samedtemiz.fitlife.R
 import com.samedtemiz.fitlife.components.HyperlinkText

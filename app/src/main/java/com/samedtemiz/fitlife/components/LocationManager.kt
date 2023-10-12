@@ -43,14 +43,6 @@ class LocationManager(
             setWaitForAccurateLocation(true)
         }.build()
 
-    fun changeRequest(timeInterval: Long, minimalDistance: Float) {
-        this.timeInterval = timeInterval
-        this.minimalDistance = minimalDistance
-        createRequest()
-        stopLocationTracking()
-        startLocationTracking()
-    }
-
     fun startLocationTracking() =
         locationClient.requestLocationUpdates(request, this, Looper.getMainLooper())
 
